@@ -1,0 +1,118 @@
+---
+alwaysApply: true
+---
+# Design System Usage
+
+This rule enforces the consistent use of our centralized design system throughout the application. All styling should leverage the variables, mixins, and utilities provided in the `designSystem.scss` file.
+
+## Key Guidelines
+
+1. **Variable Usage**
+   - ALWAYS use design system variables for:
+     - Colors: `color(primary-bg)`, `color(text-primary)`, etc.
+     - Spacing: `spacing(4)`, `spacing(8)`, etc.
+     - Typography: `font-size(sm)`, `font-size(lg)`, etc.
+     - Border-radius: `radius(sm)`, `radius(lg)`, etc.
+     - Shadows: `shadow(md)`, `shadow(lg)`, etc.
+     - Z-index: `z(dropdown)`, `z(modal)`, etc.
+   - NEVER use hardcoded values for these properties
+
+2. **Mixin Implementation**
+   - Use provided mixins to maintain consistency:
+     - `@include typography(base, medium, normal)`
+     - `@include breakpoint(md)`
+     - `@include button-base`
+     - `@include card-base`
+     - `@include input-base`
+
+3. **Module SCSS Structure**
+   - When creating component-specific `.module.scss` files:
+     - Import the design system at the top: `@import '../../styles/designSystem.scss';`
+     - Use the BEM naming convention for class names
+     - Access classes using dot notation: `styles.featureButton`
+
+4. **Mobile-First Approach**
+   - Follow the mobile-first paradigm using the breakpoint mixin:
+   ```scss
+   .component {
+     padding: spacing(2);
+     
+     @include breakpoint(md) {
+       padding: spacing(4);
+     }
+   }
+   ```
+
+5. **Extending the Design System**
+   - When new variables or utilities are needed:
+     - Add them to the designSystem.scss file in the appropriate section
+     - Follow the existing naming conventions and patterns
+     - Document additions with comments
+     - Never duplicate existing functionality
+
+## Implementation Examples
+
+### Component Module SCSS:
+
+```scss
+// Button.module.scss
+@import '../../styles/designSystem.scss';
+
+.button {
+  @include button-base;
+  padding: spacing(2) spacing(4);
+  background-color: color(white);
+  color: color(gray-900);
+  
+  &:hover {
+    background-color: color(white-hover);
+  }
+  
+  @include breakpoint(md) {
+    padding: spacing(3) spacing(6);
+  }
+}
+
+.buttonIcon {
+  margin-right: spacing(2);
+  font-size: font-size(lg);
+}
+```
+
+### Component Usage:
+
+```tsx
+// Button.tsx
+import styles from './Button.module.scss';
+
+export const Button = ({ children, icon }) => {
+  return (
+    <button className={styles.button}>
+      {icon && <span className={styles.buttonIcon}>{icon}</span>}
+      {children}
+    </button>
+  );
+};
+```
+
+## Adding New Variables
+
+When you need to add new design tokens:
+
+1. Identify the appropriate category (colors, spacing, typography, etc.)
+2. Add the new variable to the corresponding map in designSystem.scss
+3. Use semantic naming that describes purpose, not appearance
+4. Maintain consistent naming patterns with existing variables
+5. Add a comment if the purpose isn't obvious from the name
+
+Example of adding a new color:
+```scss
+$colors: (
+  // Existing colors...
+  
+  // New accent color for premium features
+  premium-accent: #9f7aea,
+  premium-accent-hover: #805ad5,
+  premium-accent-bg: rgba(159, 122, 234, 0.1),
+);
+```

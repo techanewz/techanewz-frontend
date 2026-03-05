@@ -1,0 +1,404 @@
+@import '../../styles/designSystem.scss';
+
+.explore {
+  min-height: 100vh;
+  padding: spacing(6) 0;
+  
+  @include breakpoint(md) {
+    padding: spacing(8) 0;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 spacing(4);
+  
+  @include breakpoint(md) {
+    padding: 0 spacing(6);
+  }
+  
+  @include breakpoint(lg) {
+    padding: 0 spacing(8);
+  }
+}
+
+// ============================================
+// Header Section
+// ============================================
+
+.header {
+  text-align: center;
+  margin-bottom: spacing(8);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.title {
+  @include typography(2xl, bold, tight);
+  @include gradient-text;
+  margin: 0 0 spacing(3);
+  
+  @include breakpoint(md) {
+    @include typography(4xl, bold, tight);
+  }
+}
+
+.subtitle {
+  @include typography(base, normal, relaxed);
+  color: color(text-secondary);
+  margin: 0;
+  
+  @include breakpoint(md) {
+    @include typography(lg, normal, relaxed);
+  }
+}
+
+// ============================================
+// Search Section
+// ============================================
+
+.searchContainer {
+  margin-bottom: spacing(8);
+  animation: slideDown 0.4s ease-out;
+}
+
+.searchWrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.searchIcon {
+  position: absolute;
+  left: spacing(4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: color(text-tertiary);
+  font-size: font-size(lg);
+  pointer-events: none;
+}
+
+.searchInput {
+  @include input-base;
+  padding-left: spacing(12);
+  @include typography(base, normal, normal);
+  
+  @include breakpoint(md) {
+    @include typography(lg, normal, normal);
+  }
+}
+
+// ============================================
+// Tags Section
+// ============================================
+
+.tagsSection {
+  margin-bottom: spacing(8);
+  animation: slideUp 0.5s ease-out;
+}
+
+.tagsSectionHeader {
+  @include flex-between;
+  margin-bottom: spacing(6);
+  padding-bottom: spacing(4);
+  border-bottom: 1px solid color(divider);
+}
+
+.tagsTitle {
+  @include typography(xl, semibold, tight);
+  color: color(text-primary);
+  margin: 0;
+  
+  @include breakpoint(md) {
+    @include typography(2xl, semibold, tight);
+  }
+}
+
+.clearButton {
+  @include typography(sm, medium, normal);
+  padding: spacing(2) spacing(4);
+  background-color: transparent;
+  color: color(accent-primary);
+  border: 1px solid color(accent-primary);
+  border-radius: radius(full);
+  cursor: pointer;
+  transition: all transition(base);
+  
+  &:hover {
+    background-color: color(accent-primary);
+    color: color(primary-bg);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.tagsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: spacing(3);
+  
+  @include breakpoint(sm) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @include breakpoint(md) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: spacing(4);
+  }
+  
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.tagButton {
+  @include flex-between;
+  padding: spacing(4);
+  background-color: color(card-bg);
+  border: 1px solid color(border-subtle);
+  border-radius: radius(lg);
+  @include typography(sm, medium, normal);
+  color: color(text-primary);
+  cursor: pointer;
+  transition: all transition(base);
+  @include touch-target;
+  
+  &:hover {
+    background-color: color(card-hover);
+    border-color: color(border-medium);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &.selected {
+    background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+    border-color: transparent;
+    color: color(text-primary);
+    box-shadow: shadow(glow);
+    
+    &:hover {
+      box-shadow: shadow(glow-strong);
+    }
+  }
+  
+  @include breakpoint(md) {
+    @include typography(base, medium, normal);
+    padding: spacing(5);
+  }
+}
+
+.checkmark {
+  margin-left: spacing(2);
+  font-weight: font-weight(bold);
+}
+
+.noResults {
+  padding: spacing(8);
+  text-align: center;
+  color: color(text-secondary);
+}
+
+// ============================================
+// Selected Info
+// ============================================
+
+.selectedInfo {
+  padding: spacing(4);
+  background-color: color(tertiary-bg);
+  border-radius: radius(lg);
+  border: 1px solid color(border-subtle);
+  margin-bottom: spacing(6);
+  animation: scaleIn 0.3s ease-out;
+}
+
+.selectedText {
+  @include typography(sm, medium, relaxed);
+  color: color(text-secondary);
+  
+  @include breakpoint(md) {
+    @include typography(base, medium, relaxed);
+  }
+}
+
+// ============================================
+// Results Section
+// ============================================
+
+.resultsHeader {
+  margin-bottom: spacing(6);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.resultsCount {
+  @include typography(sm, medium, normal);
+  color: color(text-tertiary);
+  padding: spacing(2) spacing(4);
+  background-color: color(tertiary-bg);
+  border-radius: radius(full);
+  border: 1px solid color(border-subtle);
+  display: inline-block;
+}
+
+// ============================================
+// News Grid
+// ============================================
+
+.newsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: spacing(4);
+  margin-bottom: spacing(6);
+  
+  @include breakpoint(md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing(6);
+  }
+  
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: spacing(8);
+  }
+  
+  // Staggered animation
+  > * {
+    animation: slideUp 0.5s ease-out backwards;
+    
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.05}s;
+      }
+    }
+  }
+}
+
+// ============================================
+// Loading State
+// ============================================
+
+.loadingContainer {
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(4);
+  padding: spacing(20) spacing(4);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.loadingText {
+  @include typography(base, medium, normal);
+  color: color(text-secondary);
+}
+
+// ============================================
+// Error State
+// ============================================
+
+.errorContainer {
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(4);
+  padding: spacing(16) spacing(4);
+  text-align: center;
+  animation: scaleIn 0.4s ease-out;
+}
+
+.errorIcon {
+  font-size: font-size(5xl);
+}
+
+.errorTitle {
+  @include typography(xl, semibold, tight);
+  color: color(text-primary);
+  margin: 0;
+}
+
+.errorMessage {
+  @include typography(base, normal, relaxed);
+  color: color(text-secondary);
+  max-width: 500px;
+  margin: 0;
+}
+
+// ============================================
+// Empty State
+// ============================================
+
+.emptyState {
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(4);
+  padding: spacing(16) spacing(4);
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.emptyIcon {
+  font-size: font-size(5xl);
+}
+
+.emptyTitle {
+  @include typography(xl, semibold, tight);
+  color: color(text-primary);
+  margin: 0;
+  
+  @include breakpoint(md) {
+    @include typography(2xl, semibold, tight);
+  }
+}
+
+.emptyMessage {
+  @include typography(base, normal, relaxed);
+  color: color(text-secondary);
+  max-width: 500px;
+  margin: 0;
+}
+
+// ============================================
+// Animations
+// ============================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,107 @@
+@import '../../styles/designSystem.scss';
+
+.errorBoundary {
+  @include flex-center;
+  min-height: 100vh;
+  padding: spacing(8) spacing(4);
+  background-color: color(primary-bg);
+}
+
+.content {
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(6);
+  max-width: 600px;
+  text-align: center;
+  animation: scaleIn 0.4s ease-out;
+}
+
+.icon {
+  font-size: font-size(5xl);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.title {
+  @include typography(2xl, bold, tight);
+  color: color(text-primary);
+  margin: 0;
+  
+  @include breakpoint(md) {
+    @include typography(3xl, bold, tight);
+  }
+}
+
+.message {
+  @include typography(base, normal, relaxed);
+  color: color(text-secondary);
+  margin: 0;
+  
+  @include breakpoint(md) {
+    @include typography(lg, normal, relaxed);
+  }
+}
+
+.details {
+  width: 100%;
+  margin-top: spacing(4);
+  padding: spacing(4);
+  background-color: color(tertiary-bg);
+  border-radius: radius(lg);
+  border: 1px solid color(border-subtle);
+  text-align: left;
+  
+  summary {
+    @include typography(sm, medium, normal);
+    color: color(text-secondary);
+    cursor: pointer;
+    user-select: none;
+    
+    &:hover {
+      color: color(text-primary);
+    }
+  }
+}
+
+.errorText {
+  @include typography(xs, normal, relaxed);
+  color: color(error);
+  margin: spacing(3) 0 0;
+  padding: spacing(3);
+  background-color: color(secondary-bg);
+  border-radius: radius(md);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.button {
+  @include button-base;
+  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+  color: color(text-primary);
+  margin-top: spacing(4);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: shadow(glow-strong);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

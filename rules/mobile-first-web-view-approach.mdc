@@ -1,0 +1,41 @@
+---
+alwaysApply: true
+---
+# Mobile-First Web View Development Approach
+
+This React application is primarily a mobile application using web-view technology. All development should prioritize the mobile experience first.
+
+## Key Guidelines
+
+1. **Mobile Viewport Priority**
+   - Design and develop for mobile screens first (320px-480px width)
+   - Use responsive design practices that scale up, not down
+   - Test on mobile devices/emulators as primary target
+
+2. **CSS/Styling Requirements**
+   - Use viewport units (vw, vh) or relative units (rem, %) instead of fixed pixels where possible
+   - Implement media queries starting from mobile and scaling up
+   - Follow this pattern: `@media (min-width: 768px) { /* tablet styles */ }`
+
+3. **Component Design**
+   - Components should be designed for touch interaction first
+   - Minimum touch target size: 44x44px
+   - Avoid hover-dependent interactions as primary interfaces
+
+4. **Performance Considerations**
+   - Optimize bundle size for mobile data connections
+   - Minimize heavy animations and transitions
+   - Implement lazy-loading for non-critical resources
+   - Target fast initial load times (<2 seconds)
+
+5. **Testing Requirements**
+   - Test on actual mobile devices or accurate emulators
+   - Consider bandwidth and CPU limitations of mobile devices
+   - Verify touch interactions work as expected
+
+## Implementation Notes
+
+- Consider using a mobile-first CSS framework like Tailwind CSS with appropriate configuration
+- Implement appropriate viewport meta tags in HTML
+- Use React's Context API or similar for managing device-specific features
+- Validate all UI changes on mobile viewport first before desktop

@@ -1,0 +1,105 @@
+---
+alwaysApply: false
+---
+# Component Folder Structure
+
+This rule defines the standard structure for creating React components in this application.
+
+## Required Files for Each Component
+
+1. **Main Component File**
+   - File naming: `Feature.tsx` (PascalCase)
+   - Contains the React component with JSX
+   - Should be kept focused on presentation logic
+   - Example: `Button.tsx`, `UserProfile.tsx`
+
+2. **Style Module File**
+   - File naming: `Feature.module.scss` (matching component name)
+   - Contains component-specific styles as CSS modules
+   - Example: `Button.module.scss`, `UserProfile.module.scss`
+   
+3. **Custom Hook File (when needed)**
+   - File naming: `useFeature.ts` (camelCase with 'use' prefix)
+   - Required when component has complex logic
+   - Contains business logic, state management, and side effects
+   - Example: `useButton.ts`, `useUserProfile.ts`
+
+## Implementation Guidelines
+
+### Component Structure
+
+```tsx
+// Feature.tsx
+import styles from './Feature.module.scss';
+import { useFeature } from './useFeature';
+
+export const Feature = () => {
+  // Use the custom hook for complex logic
+  const { data, handlers } = useFeature();
+  
+  return (
+    <div className={styles.feature}>
+      <button className={styles.featureButton}>
+        {data.buttonText}
+      </button>
+    </div>
+  );
+};
+```
+
+### Styles Usage
+
+- Always import as `styles` from the module file
+- Access class names using dot notation: `styles.featureButton`
+- Combine multiple classes if needed: `${styles.button} ${styles.primary}`
+
+### Custom Hook Structure
+
+```tsx
+// useFeature.ts
+import { useState, useEffect } from 'react';
+
+export const useFeature = () => {
+  // Component logic goes here
+  const [data, setData] = useState();
+  
+  // Side effects
+  useEffect(() => {
+    // ...
+  }, []);
+  
+  // Event handlers
+  const handleEvent = () => {
+    // ...
+  };
+  
+  // Return values and handlers to be used in the component
+  return {
+    data,
+    handlers: {
+      handleEvent
+    }
+  };
+};
+```
+
+## When to Create a Custom Hook
+
+- The component has complex state management
+- The component makes API calls or uses effects
+- Logic can be reused in other components
+- Component file is becoming too large (>100 lines)
+- There's clear separation between UI and business logic
+
+## Directory Structure
+
+For components with multiple files, organize them in a dedicated folder:
+
+```
+src/
+└── components/
+    └── Feature/
+        ├── Feature.tsx
+        ├── Feature.module.scss
+        └── useFeature.ts (if needed)
+```

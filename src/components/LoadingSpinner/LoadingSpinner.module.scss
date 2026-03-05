@@ -1,0 +1,71 @@
+@import '../../styles/designSystem.scss';
+
+.fullScreen {
+  @include flex-center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: color(primary-bg);
+  z-index: z(modal);
+}
+
+.spinner {
+  display: flex;
+  gap: spacing(2);
+  align-items: center;
+  justify-content: center;
+  
+  &.sm {
+    gap: spacing(1);
+    
+    .circle {
+      width: 6px;
+      height: 6px;
+    }
+  }
+  
+  &.md {
+    gap: spacing(2);
+    
+    .circle {
+      width: 10px;
+      height: 10px;
+    }
+  }
+  
+  &.lg {
+    gap: spacing(3);
+    
+    .circle {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+.circle {
+  border-radius: radius(full);
+  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+  animation: bounce 1.4s infinite ease-in-out both;
+  
+  &:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  
+  &:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

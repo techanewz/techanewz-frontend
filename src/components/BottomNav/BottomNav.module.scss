@@ -1,0 +1,112 @@
+@import '../../styles/designSystem.scss';
+
+.bottomNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: z(fixed);
+  @include glass-effect;
+  border-top: 1px solid color(border-subtle);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  
+  // Hide on desktop
+  @include breakpoint(lg) {
+    display: none;
+  }
+}
+
+.navContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.navButton {
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(1);
+  padding: spacing(3) spacing(2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all transition(base);
+  position: relative;
+  @include touch-target;
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.iconWrapper {
+  position: relative;
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+}
+
+.icon {
+  color: color(text-tertiary);
+  transition: all transition(base);
+  
+  .navButton.active & {
+    color: color(accent-primary);
+  }
+  
+  .navButton:hover:not(.active) & {
+    color: color(text-secondary);
+  }
+}
+
+.label {
+  @include typography(xs, medium, normal);
+  color: color(text-tertiary);
+  transition: all transition(base);
+  
+  .navButton.active & {
+    color: color(text-primary);
+  }
+  
+  .navButton:hover:not(.active) & {
+    color: color(text-secondary);
+  }
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: color(accent-primary);
+  border-radius: radius(full);
+  box-shadow: shadow(glow);
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: translateX(-50%) scale(0);
+  }
+  to {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+// ============================================
+// Tablet Layout
+// ============================================
+
+@include breakpoint(md) {
+  .navContainer {
+    max-width: 100%;
+    padding: 0 spacing(8);
+  }
+  
+  .navButton {
+    padding: spacing(4) spacing(3);
+  }
+}

@@ -1,0 +1,258 @@
+@import '../../styles/designSystem.scss';
+
+.card {
+  @include card-base;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  
+  // Mobile: Full height card
+  @media (max-width: 767px) {
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: color(primary-bg);
+  }
+  
+  @include breakpoint(md) {
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: shadow(xl);
+    }
+    
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+}
+
+// ============================================
+// Image Section
+// ============================================
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: color(tertiary-bg);
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity transition(base);
+  
+  &.imageLoaded {
+    opacity: 1;
+  }
+}
+
+.imageSkeleton {
+  @include skeleton-loading;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.imagePlaceholder {
+  @include flex-center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, color(tertiary-bg), color(secondary-bg));
+  color: color(text-tertiary);
+}
+
+.sourceBadge {
+  position: absolute;
+  top: spacing(3);
+  left: spacing(3);
+  @include glass-effect;
+  padding: spacing(1) spacing(3);
+  border-radius: radius(md);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.sourceText {
+  @include typography(xs, medium, normal);
+  color: color(text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+// ============================================
+// Content Section
+// ============================================
+
+.content {
+  padding: spacing(4);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(3);
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  
+  @include breakpoint(md) {
+    padding: spacing(5);
+    gap: spacing(4);
+    overflow-y: visible;
+  }
+}
+
+.title {
+  @include typography(lg, semibold, tight);
+  color: color(text-primary);
+  margin: 0;
+  
+  // Mobile: Allow title to wrap fully
+  @media (max-width: 767px) {
+    line-height: 1.4;
+    margin-bottom: spacing(2);
+  }
+  
+  @include breakpoint(md) {
+    @include truncate(2);
+  }
+}
+
+.description {
+  @include typography(sm, normal, relaxed);
+  color: color(text-secondary);
+  margin: 0;
+  flex: 1;
+  
+  // Mobile: Show full description with scroll
+  @media (max-width: 767px) {
+    // Remove truncate on mobile
+    line-height: 1.6;
+  }
+  
+  @include breakpoint(md) {
+    @include truncate(3);
+  }
+}
+
+// ============================================
+// Tags Section
+// ============================================
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing(2);
+  margin-top: auto;
+}
+
+.tag {
+  @include typography(xs, medium, normal);
+  padding: spacing(1) spacing(3);
+  background-color: color(tertiary-bg);
+  color: color(accent-primary);
+  border-radius: radius(full);
+  border: 1px solid color(border-subtle);
+  transition: all transition(base);
+  
+  &:hover {
+    background-color: color(secondary-bg);
+    border-color: color(accent-primary);
+  }
+}
+
+.tagMore {
+  @include typography(xs, medium, normal);
+  padding: spacing(1) spacing(3);
+  background-color: transparent;
+  color: color(text-tertiary);
+  border-radius: radius(full);
+  border: 1px dashed color(border-medium);
+}
+
+// ============================================
+// Footer Section
+// ============================================
+
+.footer {
+  @include flex-between;
+  padding-top: spacing(3);
+  border-top: 1px solid color(divider);
+  margin-top: auto;
+}
+
+.metadata {
+  display: flex;
+  align-items: center;
+  gap: spacing(2);
+  @include typography(xs, normal, normal);
+  color: color(text-tertiary);
+  
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.readMoreButton {
+  @include flex-center;
+  gap: spacing(2);
+  padding: spacing(2) spacing(4);
+  @include typography(sm, medium, normal);
+  color: color(accent-primary);
+  background-color: transparent;
+  border: 1px solid color(accent-primary);
+  border-radius: radius(lg);
+  transition: all transition(base);
+  @include touch-target;
+  
+  &:hover {
+    background-color: color(accent-primary);
+    color: color(primary-bg);
+    transform: translateY(-1px);
+    box-shadow: shadow(glow);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  svg {
+    transition: transform transition(base);
+  }
+  
+  &:hover svg {
+    transform: translateX(2px);
+  }
+}
+
+// ============================================
+// Responsive Design
+// ============================================
+
+@include breakpoint(md) {
+  .content {
+    padding: spacing(5);
+    gap: spacing(4);
+  }
+  
+  .title {
+    @include typography(xl, semibold, tight);
+  }
+  
+  .description {
+    @include typography(base, normal, relaxed);
+  }
+}
+
+@include breakpoint(lg) {
+  .sourceBadge {
+    top: spacing(4);
+    left: spacing(4);
+  }
+}

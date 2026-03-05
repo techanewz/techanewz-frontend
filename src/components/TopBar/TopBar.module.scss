@@ -1,0 +1,106 @@
+@import '../../styles/designSystem.scss';
+
+.topBar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: z(sticky);
+  @include glass-effect;
+  border-bottom: 1px solid color(border-subtle);
+  padding-top: env(safe-area-inset-top, 0);
+  
+  // Hide TopBar on mobile view
+  display: none;
+  
+  @include breakpoint(md) {
+    display: block;
+  }
+}
+
+.container {
+  @include flex-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: spacing(4);
+  
+  @include breakpoint(md) {
+    padding: spacing(5) spacing(6);
+  }
+  
+  @include breakpoint(lg) {
+    padding: spacing(5) spacing(8);
+  }
+}
+
+// ============================================
+// Logo Section
+// ============================================
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: spacing(3);
+}
+
+.title {
+  @include typography(xl, bold, normal);
+  @include gradient-text;
+  margin: 0;
+  user-select: none;
+  
+  @include breakpoint(md) {
+    @include typography(2xl, bold, normal);
+  }
+}
+
+// ============================================
+// Notification Button
+// ============================================
+
+.notificationButton {
+  position: relative;
+  @include flex-center;
+  @include touch-target;
+  padding: spacing(2);
+  background-color: transparent;
+  border: 1px solid color(border-subtle);
+  border-radius: radius(lg);
+  color: color(text-primary);
+  cursor: pointer;
+  transition: all transition(base);
+  
+  &:hover {
+    background-color: color(hover-overlay);
+    border-color: color(border-medium);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  @include flex-center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 spacing(1);
+  background-color: color(error);
+  color: color(text-primary);
+  @include typography(xs, bold, normal);
+  border-radius: radius(full);
+  border: 2px solid color(primary-bg);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

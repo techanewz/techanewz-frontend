@@ -1,0 +1,368 @@
+@import '../../styles/designSystem.scss';
+
+.profile {
+  min-height: 100vh;
+  padding: spacing(6) 0;
+  
+  @include breakpoint(md) {
+    padding: spacing(8) 0;
+  }
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 spacing(4);
+  
+  @include breakpoint(md) {
+    padding: 0 spacing(6);
+  }
+}
+
+// ============================================
+// Profile Header
+// ============================================
+
+.header {
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(6);
+  padding: spacing(8) 0;
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.avatar {
+  @include flex-center;
+  width: 120px;
+  height: 120px;
+  border-radius: radius(full);
+  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+  color: color(text-primary);
+  box-shadow: shadow(glow-strong);
+  
+  @include breakpoint(md) {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+.onlineBadge {
+  position: absolute;
+  bottom: spacing(2);
+  right: spacing(2);
+  width: 24px;
+  height: 24px;
+  background-color: color(success);
+  border: 4px solid color(primary-bg);
+  border-radius: radius(full);
+  box-shadow: shadow(md);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(2);
+}
+
+.username {
+  @include typography(2xl, bold, tight);
+  color: color(text-primary);
+  margin: 0;
+  
+  @include breakpoint(md) {
+    @include typography(3xl, bold, tight);
+  }
+}
+
+.userId {
+  @include typography(sm, normal, normal);
+  color: color(text-tertiary);
+  font-family: monospace;
+  margin: 0;
+}
+
+// ============================================
+// Stats Grid
+// ============================================
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: spacing(4);
+  margin-bottom: spacing(8);
+  animation: slideUp 0.5s ease-out;
+  
+  @include breakpoint(md) {
+    gap: spacing(6);
+  }
+}
+
+.statCard {
+  @include card-base;
+  padding: spacing(5);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(4);
+  align-items: center;
+  text-align: center;
+  
+  @include breakpoint(md) {
+    padding: spacing(6);
+  }
+}
+
+.statIcon {
+  @include flex-center;
+  width: 48px;
+  height: 48px;
+  border-radius: radius(lg);
+  background: linear-gradient(135deg, color(tertiary-bg), color(secondary-bg));
+  color: color(accent-primary);
+  font-size: font-size(xl);
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(2);
+}
+
+.statLabel {
+  @include typography(xs, medium, normal);
+  color: color(text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  @include typography(lg, bold, tight);
+  color: color(text-primary);
+  
+  @include breakpoint(md) {
+    @include typography(xl, bold, tight);
+  }
+}
+
+// ============================================
+// Sections
+// ============================================
+
+.section {
+  margin-bottom: spacing(8);
+  animation: slideUp 0.5s ease-out backwards;
+  
+  &:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  
+  &:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+  
+  &:nth-child(5) {
+    animation-delay: 0.3s;
+  }
+}
+
+.sectionTitle {
+  @include typography(xl, semibold, tight);
+  color: color(text-primary);
+  display: flex;
+  align-items: center;
+  gap: spacing(3);
+  margin: 0 0 spacing(6);
+  
+  svg {
+    color: color(accent-primary);
+  }
+}
+
+// ============================================
+// Settings Card
+// ============================================
+
+.settingCard {
+  @include card-base;
+  @include flex-between;
+  padding: spacing(5);
+  gap: spacing(4);
+}
+
+.settingInfo {
+  flex: 1;
+}
+
+.settingLabel {
+  @include typography(base, semibold, normal);
+  color: color(text-primary);
+  margin: 0 0 spacing(2);
+}
+
+.settingDescription {
+  @include typography(sm, normal, relaxed);
+  color: color(text-secondary);
+  margin: 0;
+}
+
+// Toggle Switch
+.toggle {
+  position: relative;
+  width: 56px;
+  height: 32px;
+  background-color: color(tertiary-bg);
+  border: 2px solid color(border-subtle);
+  border-radius: radius(full);
+  cursor: pointer;
+  transition: all transition(base);
+  flex-shrink: 0;
+  
+  &:hover {
+    background-color: color(secondary-bg);
+  }
+  
+  &.active {
+    background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+    border-color: transparent;
+  }
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background-color: color(text-primary);
+  border-radius: radius(full);
+  transition: transform transition(base);
+  box-shadow: shadow(sm);
+  
+  .toggle.active & {
+    transform: translateX(24px);
+  }
+}
+
+// ============================================
+// Coming Soon Card
+// ============================================
+
+.comingSoonCard {
+  @include card-base;
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(4);
+  padding: spacing(10);
+  text-align: center;
+}
+
+.comingSoonIcon {
+  font-size: font-size(4xl);
+  opacity: 0.8;
+}
+
+.comingSoonTitle {
+  @include typography(lg, semibold, tight);
+  color: color(text-primary);
+  margin: 0;
+}
+
+.comingSoonText {
+  @include typography(sm, normal, relaxed);
+  color: color(text-secondary);
+  max-width: 400px;
+  margin: 0;
+}
+
+// ============================================
+// About Card
+// ============================================
+
+.aboutCard {
+  @include card-base;
+  padding: spacing(6);
+}
+
+.aboutText {
+  @include typography(base, normal, relaxed);
+  color: color(text-secondary);
+  margin: 0 0 spacing(8);
+  line-height: line-height(relaxed);
+}
+
+.aboutStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: spacing(6);
+  padding-top: spacing(6);
+  border-top: 1px solid color(divider);
+}
+
+.aboutStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: spacing(2);
+  text-align: center;
+}
+
+.aboutStatValue {
+  @include typography(2xl, bold, tight);
+  @include gradient-text;
+}
+
+.aboutStatLabel {
+  @include typography(xs, medium, normal);
+  color: color(text-tertiary);
+}
+
+// ============================================
+// App Info
+// ============================================
+
+.appInfo {
+  padding: spacing(8) 0;
+  text-align: center;
+  border-top: 1px solid color(divider);
+  margin-top: spacing(8);
+}
+
+.version {
+  @include typography(sm, medium, normal);
+  color: color(text-tertiary);
+  margin: 0 0 spacing(2);
+}
+
+.copyright {
+  @include typography(xs, normal, normal);
+  color: color(text-muted);
+  margin: 0;
+}
+
+// ============================================
+// Animations
+// ============================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,125 @@
+@import '../../styles/designSystem.scss';
+
+.sidebar {
+  display: none; // Hidden on mobile
+  
+  @include breakpoint(lg) {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    background-color: color(secondary-bg);
+    border-right: 1px solid color(border-subtle);
+    padding: spacing(8) spacing(6);
+    z-index: z(sticky);
+  }
+}
+
+// ============================================
+// Logo Section
+// ============================================
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: spacing(4);
+  margin-bottom: spacing(12);
+  padding-bottom: spacing(6);
+  border-bottom: 1px solid color(divider);
+}
+
+.logoIcon {
+  @include flex-center;
+  width: 48px;
+  height: 48px;
+  border-radius: radius(lg);
+  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+  color: color(text-primary);
+  box-shadow: shadow(glow);
+}
+
+.logoText {
+  @include typography(xl, bold, normal);
+  @include gradient-text;
+  margin: 0;
+}
+
+// ============================================
+// Navigation
+// ============================================
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(2);
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: spacing(4);
+  padding: spacing(4) spacing(5);
+  background-color: transparent;
+  border: none;
+  border-radius: radius(lg);
+  @include typography(base, medium, normal);
+  color: color(text-secondary);
+  cursor: pointer;
+  transition: all transition(base);
+  position: relative;
+  text-align: left;
+  
+  &:hover {
+    background-color: color(hover-overlay);
+    color: color(text-primary);
+  }
+  
+  &.active {
+    background-color: color(tertiary-bg);
+    color: color(text-primary);
+    border: 1px solid color(border-medium);
+    
+    .navIcon {
+      color: color(accent-primary);
+    }
+  }
+}
+
+.navIcon {
+  flex-shrink: 0;
+  transition: color transition(base);
+}
+
+.navLabel {
+  flex: 1;
+}
+
+.activeIndicator {
+  position: absolute;
+  right: spacing(5);
+  width: 6px;
+  height: 6px;
+  background-color: color(accent-primary);
+  border-radius: radius(full);
+  box-shadow: shadow(glow);
+}
+
+// ============================================
+// Footer
+// ============================================
+
+.footer {
+  padding-top: spacing(6);
+  border-top: 1px solid color(divider);
+}
+
+.footerText {
+  @include typography(xs, normal, normal);
+  color: color(text-muted);
+  margin: 0;
+  text-align: center;
+}
