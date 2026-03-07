@@ -16,6 +16,12 @@
   animation: scaleIn 0.4s ease-out;
 }
 
+.brandLogo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
 .icon {
   font-size: font-size(5xl);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;

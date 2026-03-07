@@ -25,6 +25,7 @@ export const TopBar = ({ title = 'TechaNewz', showNotifications = true }: TopBar
       <div className={styles.container}>
         {/* Logo / Title */}
         <div className={styles.logo}>
+          <img src="/Logo.svg" alt="TechaNewz" className={styles.logoImg} />
           <h1 className={styles.title}>{title}</h1>
         </div>
 

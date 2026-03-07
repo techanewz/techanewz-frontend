@@ -51,6 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className={styles.errorBoundary}>
           <div className={styles.content}>
+            <img src="/Logo.svg" alt="TechaNewz" className={styles.brandLogo} />
             <div className={styles.icon}>⚠️</div>
             <h1 className={styles.title}>Oops! Something went wrong</h1>
             <p className={styles.message}>

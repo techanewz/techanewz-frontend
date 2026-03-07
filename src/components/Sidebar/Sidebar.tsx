@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FiHome, FiCompass, FiUser, FiTrendingUp } from 'react-icons/fi';
+import { FiHome, FiCompass, FiUser } from 'react-icons/fi';
 import styles from './Sidebar.module.scss';
 import type { TabType } from '@/types';
 
@@ -27,9 +27,7 @@ export const Sidebar = () => {
     <aside className={styles.sidebar}>
       {/* Logo */}
       <div className={styles.logo}>
-        <div className={styles.logoIcon}>
-          <FiTrendingUp size={32} />
-        </div>
+        <img src="/Logo.svg" alt="TechaNewz" className={styles.logoImg} />
         <h2 className={styles.logoText}>TechaNewz</h2>
       </div>
 

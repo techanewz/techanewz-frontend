@@ -27,6 +27,7 @@ export const NewsCard = ({
 }: NewsCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [showAllTags, setShowAllTags] = useState(false);
   const cardRef = useRef<HTMLElement>(null);
   const hasBeenViewedRef = useRef(false);
 
@@ -123,13 +124,23 @@ export const NewsCard = ({
         {/* Tags */}
         {news.tags && news.tags.length > 0 && (
           <div className={styles.tags}>
-            {news.tags.slice(0, 3).map((tag, index) => (
+            {(showAllTags ? news.tags : news.tags.slice(0, 3)).map((tag, index) => (
               <span key={index} className={styles.tag}>
                 {tag}
               </span>
             ))}
-            {news.tags.length > 3 && (
-              <span className={styles.tagMore}>+{news.tags.length - 3}</span>
+            {!showAllTags && news.tags.length > 3 && (
+              <button
+                type="button"
+                className={styles.tagMore}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowAllTags(true);
+                }}
+                aria-label={`Show all ${news.tags.length} tags`}
+              >
+                +{news.tags.length - 3}
+              </button>
             )}
           </div>
         )}
