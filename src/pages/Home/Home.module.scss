@@ -140,7 +140,7 @@
     height: 100vh;
     min-height: 100vh;
     max-height: 100vh;
-    padding: spacing(4);
+    padding: spacing(4) spacing(4) calc(68px + env(safe-area-inset-bottom, 0)) spacing(4);
     scroll-snap-align: start;
     scroll-snap-stop: always;
     flex-shrink: 0;
