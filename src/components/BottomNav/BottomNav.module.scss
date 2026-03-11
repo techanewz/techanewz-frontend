@@ -8,8 +8,8 @@
   z-index: z(fixed);
   @include glass-effect;
   border-top: 1px solid color(border-subtle);
-  padding: spacing(1) 0;
-  padding-bottom: calc(#{spacing(1)} + env(safe-area-inset-bottom, 0));
+  padding: 2px 0;
+  padding-bottom: calc(2px + env(safe-area-inset-bottom, 0));
   
   // Hide on desktop
   @include breakpoint(lg) {
@@ -29,14 +29,14 @@
 .navButton {
   @include flex-center;
   @include flex-column;
-  gap: 2px;
-  padding: spacing(1) spacing(2);
+  gap: 1px;
+  padding: 2px spacing(2);
   background: transparent;
   border: none;
   cursor: pointer;
   transition: all transition(base);
   position: relative;
-  min-height: 36px;
+  min-height: 32px;
   min-width: 44px;
   
   &:active {
@@ -47,8 +47,8 @@
 .iconWrapper {
   position: relative;
   @include flex-center;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .icon {
@@ -111,6 +111,6 @@
   }
   
   .navButton {
-    padding: spacing(1) spacing(3);
+    padding: 2px spacing(3);
   }
 }

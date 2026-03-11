@@ -39,7 +39,7 @@ export const BottomNav = () => {
               aria-current={isActive ? 'page' : undefined}
             >
               <div className={styles.iconWrapper}>
-                <Icon className={styles.icon} size={20} />
+                <Icon className={styles.icon} size={18} />
                 {isActive && <div className={styles.activeIndicator} />}
               </div>
               <span className={styles.label}>{tab.label}</span>

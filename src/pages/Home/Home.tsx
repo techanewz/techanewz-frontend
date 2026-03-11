@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import { Layout } from '@/components/Layout/Layout';
 import { NewsCard } from '@/components/NewsCard/NewsCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
+import { SwipeHint } from '@/components/SwipeHint/SwipeHint';
 import { useHome } from './useHome';
 import styles from './Home.module.scss';
 
@@ -9,6 +11,7 @@ import styles from './Home.module.scss';
 // ============================================
 
 export const Home = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const {
     news,
     isLoading,
@@ -21,7 +24,7 @@ export const Home = () => {
 
   return (
     <Layout title="TechaNewz">
-      <div className={styles.home}>
+      <div ref={scrollContainerRef} className={styles.home}>
         {/* Loading State */}
         {isLoading && news.length === 0 ? (
           <div className={styles.loadingContainer}>
@@ -74,6 +77,11 @@ export const Home = () => {
               )}
             </div>
           </div>
+        ) : null}
+
+        {/* First-time hint: how to see next news (mobile only, once per device) */}
+        {news.length > 0 ? (
+          <SwipeHint scrollContainerRef={scrollContainerRef} />
         ) : null}
       </div>
     </Layout>
