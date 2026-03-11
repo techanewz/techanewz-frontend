@@ -8,7 +8,8 @@
   z-index: z(fixed);
   @include glass-effect;
   border-top: 1px solid color(border-subtle);
-  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding: spacing(1) 0;
+  padding-bottom: calc(#{spacing(1)} + env(safe-area-inset-bottom, 0));
   
   // Hide on desktop
   @include breakpoint(lg) {
@@ -19,6 +20,8 @@
 .navContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -33,7 +36,7 @@
   cursor: pointer;
   transition: all transition(base);
   position: relative;
-  min-height: 40px;
+  min-height: 36px;
   min-width: 44px;
   
   &:active {
@@ -108,6 +111,6 @@
   }
   
   .navButton {
-    padding: spacing(2) spacing(3);
+    padding: spacing(1) spacing(3);
   }
 }
