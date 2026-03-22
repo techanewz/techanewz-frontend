@@ -279,6 +279,116 @@
 }
 
 // ============================================
+// Account Section
+// ============================================
+
+.accountCard {
+  @include card-base;
+  display: flex;
+  align-items: center;
+  gap: spacing(4);
+  padding: spacing(5);
+  flex-wrap: wrap;
+}
+
+.accountAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: radius(full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.accountAvatarPlaceholder {
+  @include flex-center;
+  width: 56px;
+  height: 56px;
+  border-radius: radius(full);
+  background: color(tertiary-bg);
+  color: color(text-tertiary);
+  flex-shrink: 0;
+}
+
+.accountInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.accountName {
+  @include typography(base, semibold, tight);
+  color: color(text-primary);
+  margin: 0 0 spacing(1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountEmail {
+  @include typography(sm, normal, normal);
+  color: color(text-secondary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.signOutButton {
+  display: flex;
+  align-items: center;
+  gap: spacing(2);
+  padding: spacing(2) spacing(4);
+  background: color(tertiary-bg);
+  border: 1px solid color(border-subtle);
+  border-radius: radius(md);
+  @include typography(sm, medium, normal);
+  color: color(text-secondary);
+  cursor: pointer;
+  transition: all transition(base);
+  flex-shrink: 0;
+
+  &:hover {
+    background: color(secondary-bg);
+    color: color(text-primary);
+    border-color: color(border-default);
+  }
+}
+
+.signInCard {
+  @include card-base;
+  @include flex-center;
+  @include flex-column;
+  gap: spacing(5);
+  padding: spacing(8) spacing(6);
+  text-align: center;
+}
+
+.signInText {
+  @include typography(sm, normal, relaxed);
+  color: color(text-secondary);
+  max-width: 360px;
+  margin: 0;
+}
+
+.signInButton {
+  display: flex;
+  align-items: center;
+  gap: spacing(2);
+  padding: spacing(3) spacing(6);
+  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+  border: none;
+  border-radius: radius(lg);
+  @include typography(base, semibold, normal);
+  color: color(text-primary);
+  cursor: pointer;
+  transition: opacity transition(base);
+  box-shadow: shadow(glow);
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// ============================================
 // About Card
 // ============================================
 

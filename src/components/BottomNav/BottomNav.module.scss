@@ -78,6 +78,18 @@
   }
 }
 
+.signInDot {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 7px;
+  height: 7px;
+  background-color: color(accent-primary);
+  border-radius: radius(full);
+  border: 1.5px solid color(bg-primary);
+  box-shadow: shadow(glow);
+}
+
 .activeIndicator {
   position: absolute;
   bottom: -4px;

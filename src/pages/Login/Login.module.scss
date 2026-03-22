@@ -1,0 +1,268 @@
+@import '../../styles/designSystem.scss';
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: spacing(4);
+  background: color(primary-bg);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  @include card-base;
+  padding: spacing(8) spacing(6);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(5);
+  animation: slideUp 0.4s ease-out;
+}
+
+// ============================================
+// Brand
+// ============================================
+
+.brand {
+  text-align: center;
+  margin-bottom: spacing(2);
+}
+
+.brandName {
+  @include typography(3xl, bold, tight);
+  @include gradient-text;
+  margin: 0 0 spacing(2);
+}
+
+.brandTagline {
+  @include typography(sm, normal, normal);
+  color: color(text-secondary);
+  margin: 0;
+}
+
+// ============================================
+// Tabs
+// ============================================
+
+.tabs {
+  display: flex;
+  background: color(tertiary-bg);
+  border-radius: radius(lg);
+  padding: spacing(1);
+  gap: spacing(1);
+}
+
+.tab {
+  flex: 1;
+  padding: spacing(2) spacing(4);
+  @include typography(sm, medium, normal);
+  color: color(text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: radius(md);
+  cursor: pointer;
+  transition: all transition(base);
+
+  &:hover {
+    color: color(text-primary);
+  }
+}
+
+.activeTab {
+  background: color(secondary-bg);
+  color: color(text-primary);
+  box-shadow: shadow(sm);
+}
+
+// ============================================
+// Google button
+// ============================================
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: spacing(3);
+  width: 100%;
+  padding: spacing(3) spacing(4);
+  background: color(secondary-bg);
+  border: 1px solid color(border-default);
+  border-radius: radius(lg);
+  @include typography(base, medium, normal);
+  color: color(text-primary);
+  cursor: pointer;
+  transition: all transition(base);
+
+  &:hover:not(:disabled) {
+    background: color(tertiary-bg);
+    border-color: color(border-interactive);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ============================================
+// Divider
+// ============================================
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: spacing(3);
+  color: color(text-muted);
+  @include typography(sm, normal, normal);
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: color(divider);
+  }
+}
+
+// ============================================
+// Form
+// ============================================
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(4);
+}
+
+.nameRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: spacing(3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(2);
+}
+
+.label {
+  @include typography(sm, medium, normal);
+  color: color(text-secondary);
+}
+
+.input {
+  width: 100%;
+  padding: spacing(3) spacing(4);
+  background: color(tertiary-bg);
+  border: 1px solid color(border-subtle);
+  border-radius: radius(md);
+  @include typography(base, normal, normal);
+  color: color(text-primary);
+  transition: border-color transition(base);
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: color(text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: color(accent-primary);
+  }
+}
+
+.submitButton {
+  width: 100%;
+  padding: spacing(3) spacing(4);
+  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
+  border: none;
+  border-radius: radius(lg);
+  @include typography(base, semibold, normal);
+  color: color(text-primary);
+  cursor: pointer;
+  transition: opacity transition(base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ============================================
+// Error
+// ============================================
+
+.error {
+  @include typography(sm, normal, normal);
+  color: color(error);
+  background: rgba(color(error), 0.1);
+  border: 1px solid rgba(color(error), 0.3);
+  border-radius: radius(md);
+  padding: spacing(3) spacing(4);
+  margin: 0;
+  text-align: center;
+}
+
+// ============================================
+// Skip / guest link
+// ============================================
+
+.skipButton {
+  background: none;
+  border: none;
+  @include typography(sm, normal, normal);
+  color: color(text-muted);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: underline;
+  transition: color transition(base);
+
+  &:hover {
+    color: color(text-secondary);
+  }
+}
+
+// ============================================
+// Spinner
+// ============================================
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+// ============================================
+// Animations
+// ============================================
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

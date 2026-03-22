@@ -48,6 +48,7 @@ export interface User {
   email?: string;
   avatar?: string;
   createdAt: string;
+  accountType?: 'guest' | 'google' | 'email';
 }
 
 export interface UserPreferences {

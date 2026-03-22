@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import type { ApiResponse, ApiError, NewsItem, FeedParams, TagFilterParams } from '@/types';
+import { getAccessToken } from '@/services/auth';
 
 // ============================================
 // API Configuration
@@ -17,6 +18,15 @@ class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
+    });
+
+    // Attach Mudra Bearer token when available (authenticated requests)
+    this.client.interceptors.request.use((config) => {
+      const token = getAccessToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
     });
 
     // Response interceptor for error handling
@@ -132,6 +142,14 @@ class ApiService {
       userId,
     });
     return response.data;
+  }
+
+  /**
+   * Migrate guest read history to the authenticated Mudra user account.
+   * Requires a valid Mudra Bearer token (attached automatically by the request interceptor).
+   */
+  async migrateGuestSession(guestUserId: string): Promise<void> {
+    await this.client.post('/api/auth/migrate', { guestUserId });
   }
 }
 
