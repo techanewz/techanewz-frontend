@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { apiService } from '@/services/api';
 import { useUser } from '@/contexts/UserContext';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
@@ -10,6 +11,7 @@ import type { NewsItem, Pagination } from '@/types';
 
 export const useHome = () => {
   const { userId } = useUser();
+  const [searchParams] = useSearchParams();
   const [news, setNews] = useState<NewsItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
@@ -21,6 +23,9 @@ export const useHome = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Holds the article tapped from a notification — pinned at position 0
+  const pinnedNewsRef = useRef<NewsItem | null>(null);
+
   // Fetch initial news feed
   const fetchNews = useCallback(async (page = 1) => {
     try {
@@ -29,7 +34,7 @@ export const useHome = () => {
       } else {
         setIsLoadingMore(true);
       }
-      
+
       setError(null);
 
       const response = await apiService.getNewsFeed({
@@ -40,7 +45,14 @@ export const useHome = () => {
 
       if (response.success && response.data) {
         if (page === 1) {
-          setNews(response.data);
+          const pinned = pinnedNewsRef.current;
+          if (pinned) {
+            // Prepend pinned article, remove it from the regular feed if already present
+            const filtered = response.data.filter((item) => item.id !== pinned.id);
+            setNews([pinned, ...filtered]);
+          } else {
+            setNews(response.data);
+          }
         } else {
           setNews((prev) => [...prev, ...response.data]);
         }
@@ -58,6 +70,20 @@ export const useHome = () => {
       setIsLoadingMore(false);
     }
   }, [userId]);
+
+  // On mount: if ?newsId is present, fetch that article and pin it at the top
+  useEffect(() => {
+    const newsId = searchParams.get('newsId');
+    if (newsId) {
+      window.history.replaceState({}, '', '/');
+      apiService.getNewsById(newsId).then((res) => {
+        if (res.success && res.data) {
+          pinnedNewsRef.current = res.data;
+        }
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Load initial news on mount
   useEffect(() => {

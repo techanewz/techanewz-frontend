@@ -80,33 +80,51 @@ export const Login = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = () => {
     setError('');
     setGoogleLoading(true);
-    try {
-      if (isInWebView()) {
-        // Native path: Expo shell handles OAuth, result comes via useNativeBridge
-        requestNativeGoogleSignIn(userId);
-        // Don't setGoogleLoading(false) — user will be redirected when bridge responds
-        return;
-      }
 
-      // Browser path: use Firebase popup
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(firebaseAuth, provider);
-      const firebaseIdToken = await result.user.getIdToken();
+    if (isInWebView()) {
+      // Native path: send request to Expo shell, wait for response via window message
+      requestNativeGoogleSignIn(userId);
 
-      const { data } = await mudraGoogleSignIn(firebaseIdToken);
-      await handleAuthSuccess(data.accessToken, data.refreshToken, data.user);
-    } catch (err: any) {
-      if (err?.code === 'auth/popup-closed-by-user') {
-        // User dismissed the popup — not an error
-      } else {
-        setError(err?.response?.data?.message || err.message || 'Google sign-in failed');
-      }
-    } finally {
-      setGoogleLoading(false);
+      const handleNativeResponse = (event: MessageEvent) => {
+        try {
+          const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+          if (
+            data?.type === 'GOOGLE_AUTH_SUCCESS' ||
+            data?.type === 'GOOGLE_AUTH_CANCELLED' ||
+            data?.type === 'GOOGLE_AUTH_ERROR'
+          ) {
+            window.removeEventListener('message', handleNativeResponse);
+            if (data.type === 'GOOGLE_AUTH_ERROR') {
+              setError(data.error || 'Google sign-in failed');
+            }
+            setGoogleLoading(false);
+          }
+        } catch {}
+      };
+
+      window.addEventListener('message', handleNativeResponse);
+      return;
     }
+
+    // Browser path: use Firebase popup
+    (async () => {
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(firebaseAuth, provider);
+        const firebaseIdToken = await result.user.getIdToken();
+        const { data } = await mudraGoogleSignIn(firebaseIdToken);
+        await handleAuthSuccess(data.accessToken, data.refreshToken, data.user);
+      } catch (err: any) {
+        if (err?.code !== 'auth/popup-closed-by-user') {
+          setError(err?.response?.data?.message || err.message || 'Google sign-in failed');
+        }
+      } finally {
+        setGoogleLoading(false);
+      }
+    })();
   };
 
   return (
