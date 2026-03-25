@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiHome, FiCompass, FiUser } from 'react-icons/fi';
 import styles from './BottomNav.module.scss';
-import { useUser } from '@/contexts/UserContext';
 import type { TabType } from '@/types';
 
 // ============================================
@@ -11,7 +10,6 @@ import type { TabType } from '@/types';
 export const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated } = useUser();
 
   const tabs: { id: TabType; icon: React.ElementType; label: string; path: string }[] = [
     { id: 'home', icon: FiHome, label: 'Home', path: '/' },
@@ -43,13 +41,8 @@ export const BottomNav = () => {
               <div className={styles.iconWrapper}>
                 <Icon className={styles.icon} size={18} />
                 {isActive && <div className={styles.activeIndicator} />}
-                {tab.id === 'profile' && !isAuthenticated && (
-                  <span className={styles.signInDot} aria-label="Sign in" />
-                )}
               </div>
-              <span className={styles.label}>
-                {tab.id === 'profile' && !isAuthenticated ? 'Sign In' : tab.label}
-              </span>
+              <span className={styles.label}>{tab.label}</span>
             </button>
           );
         })}

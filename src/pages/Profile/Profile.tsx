@@ -1,16 +1,14 @@
-import { useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
 import { useUser } from '@/contexts/UserContext';
 import styles from './Profile.module.scss';
-import { FiUser, FiTag, FiBell, FiInfo, FiCalendar, FiLogIn, FiLogOut } from 'react-icons/fi';
+import { FiUser, FiTag, FiBell, FiInfo, FiCalendar, FiLogOut } from 'react-icons/fi';
 
 // ============================================
 // Profile Page Component
 // ============================================
 
 export const Profile = () => {
-  const { user, preferences, updatePreferences, isAuthenticated, logout } = useUser();
-  const navigate = useNavigate();
+  const { user, preferences, updatePreferences, logout } = useUser();
 
   const handleNotificationsToggle = () => {
     updatePreferences({
@@ -104,42 +102,27 @@ export const Profile = () => {
               <span>Account</span>
             </h2>
 
-            {isAuthenticated ? (
-              <div className={styles.accountCard}>
-                {user?.avatar ? (
-                  <img src={user.avatar} alt="Profile" className={styles.accountAvatar} />
-                ) : (
-                  <div className={styles.accountAvatarPlaceholder}>
-                    <FiUser size={24} />
-                  </div>
-                )}
-                <div className={styles.accountInfo}>
-                  <p className={styles.accountName}>{user?.username}</p>
-                  {user?.email && <p className={styles.accountEmail}>{user.email}</p>}
+            <div className={styles.accountCard}>
+              {user?.avatar ? (
+                <img src={user.avatar} alt="Profile" className={styles.accountAvatar} />
+              ) : (
+                <div className={styles.accountAvatarPlaceholder}>
+                  <FiUser size={24} />
                 </div>
-                <button
-                  className={styles.signOutButton}
-                  onClick={() => logout()}
-                  aria-label="Sign out"
-                >
-                  <FiLogOut size={16} />
-                  <span>Sign Out</span>
-                </button>
+              )}
+              <div className={styles.accountInfo}>
+                <p className={styles.accountName}>{user?.username}</p>
+                {user?.email && <p className={styles.accountEmail}>{user.email}</p>}
               </div>
-            ) : (
-              <div className={styles.signInCard}>
-                <p className={styles.signInText}>
-                  Sign in to sync your read history and preferences across devices.
-                </p>
-                <button
-                  className={styles.signInButton}
-                  onClick={() => navigate('/login')}
-                >
-                  <FiLogIn size={16} />
-                  <span>Sign In / Sign Up</span>
-                </button>
-              </div>
-            )}
+              <button
+                className={styles.signOutButton}
+                onClick={() => logout()}
+                aria-label="Sign out"
+              >
+                <FiLogOut size={16} />
+                <span>Sign Out</span>
+              </button>
+            </div>
           </div>
 
           {/* About Section */}

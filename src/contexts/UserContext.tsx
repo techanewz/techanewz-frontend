@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { getUserId, getUserPreferences, saveUserPreferences } from '@/services/api';
+import { getUserPreferences, saveUserPreferences } from '@/services/api';
 import {
   getAccessToken,
-  getRefreshToken,
   storeTokens,
   clearTokens,
   decodeJwt,
@@ -80,16 +79,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           }
         }
 
-        // Guest mode — use existing or generate new guest ID
-        const id = getUserId();
-        setUserId(id);
+        // No authenticated session — require login
+        setUserId('');
         setIsAuthenticated(false);
-        setUser({
-          id,
-          username: `User${id.slice(-4)}`,
-          createdAt: new Date().toISOString(),
-          accountType: 'guest',
-        });
+        setUser(null);
       } catch (error) {
         console.error('Error initializing user:', error);
       } finally {
@@ -128,17 +121,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
     clearTokens();
     setIsAuthenticated(false);
-
-    // Generate a new guest ID after logout
-    const newGuestId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-    localStorage.setItem('techanewz_user_id', newGuestId);
-    setUserId(newGuestId);
-    setUser({
-      id: newGuestId,
-      username: `User${newGuestId.slice(-4)}`,
-      createdAt: new Date().toISOString(),
-      accountType: 'guest',
-    });
+    setUserId('');
+    setUser(null);
   }, []);
 
   const updatePreferences = (prefs: Partial<UserPreferences>) => {

@@ -4,7 +4,6 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { firebaseAuth } from '@/config/firebase';
 import { useUser } from '@/contexts/UserContext';
 import { mudraLogin, mudraRegister, mudraGoogleSignIn } from '@/services/mudra';
-import { apiService } from '@/services/api';
 import { isInWebView, requestNativeGoogleSignIn } from '@/hooks/useNativeBridge';
 import styles from './Login.module.scss';
 
@@ -17,7 +16,7 @@ type Tab = 'signin' | 'signup';
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { loginWithMudra, isAuthenticated, userId } = useUser();
+  const { loginWithMudra, isAuthenticated } = useUser();
 
   const [tab, setTab] = useState<Tab>('signin');
   const [email, setEmail] = useState('');
@@ -36,14 +35,7 @@ export const Login = () => {
   }, [isAuthenticated, navigate]);
 
   const handleAuthSuccess = async (accessToken: string, refreshToken: string, user: any) => {
-    const guestUserId = userId;
     loginWithMudra(user, accessToken, refreshToken);
-
-    // Migrate guest history in background
-    if (guestUserId.startsWith('user_')) {
-      apiService.migrateGuestSession(guestUserId).catch(console.error);
-    }
-
     navigate('/');
   };
 
@@ -86,7 +78,7 @@ export const Login = () => {
 
     if (isInWebView()) {
       // Native path: send request to Expo shell, wait for response via window message
-      requestNativeGoogleSignIn(userId);
+      requestNativeGoogleSignIn();
 
       const handleNativeResponse = (event: MessageEvent) => {
         try {
@@ -265,10 +257,6 @@ export const Login = () => {
           </form>
         )}
 
-        {/* Back to app */}
-        <button className={styles.skipButton} onClick={() => navigate(-1)}>
-          Continue as guest
-        </button>
       </div>
     </div>
   );

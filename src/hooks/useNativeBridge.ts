@@ -13,9 +13,9 @@ export const isInWebView = (): boolean =>
 // Send message to native Expo shell
 // ============================================
 
-export const requestNativeGoogleSignIn = (guestUserId: string): void => {
+export const requestNativeGoogleSignIn = (): void => {
   (window as any).ReactNativeWebView?.postMessage(
-    JSON.stringify({ type: 'GOOGLE_SIGN_IN_REQUEST', guestUserId })
+    JSON.stringify({ type: 'GOOGLE_SIGN_IN_REQUEST' })
   );
 };
 
