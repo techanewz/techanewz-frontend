@@ -27,7 +27,7 @@ export interface MudraAuthResponse {
 const mudraClient = axios.create({
   baseURL: import.meta.env.VITE_MUDRA_BASE_URL || 'http://localhost:3001',
   timeout: 15000,
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json', 'X-App-ID': 'techanewz' },
 });
 
 // ============================================
