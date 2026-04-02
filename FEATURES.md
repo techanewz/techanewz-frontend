@@ -2,7 +2,7 @@
 
 ## About TechaNewz
 
-**TechaNewz** is a modern, mobile-first tech news aggregation platform. It gives you a personalized feed of technology news with infinite scroll, tag-based exploration, and a minimal dark UI. The app is built with React, TypeScript, and SCSS and works great on phones and desktops. No sign-up is required—you get a unique user ID stored locally and can start reading immediately.
+**TechaNewz** is a modern, mobile-first tech news aggregation platform. It gives you a personalized feed of technology news with infinite scroll, tag-based exploration, and a minimal dark UI. The app is built with React, TypeScript, and SCSS and works great on phones and desktops. Sign in with Google or email to get started.
 
 **Target audience:** Tech professionals, developers, students, and anyone who wants to stay updated on tech news in a clean, fast interface.
 
@@ -28,11 +28,12 @@ TechaNewz is designed **mobile-first** with a strong desktop experience. It focu
 - 💫 **Smooth Animations**: Cards fade in with staggered delays
 
 **User Flow:**
-1. Open app → Instantly see hero section while content loads
-2. Scroll through personalized news feed
-3. Tap card to read full article (opens in new tab)
-4. Keep scrolling → More content loads automatically
-5. Reach end → "You're all caught up! 🎉" message
+1. Open app → Sign in with Google or email
+2. Instantly see hero section while content loads
+3. Scroll through personalized news feed
+4. Tap card to read full article (opens in new tab)
+5. Keep scrolling → More content loads automatically
+6. Reach end → "You're all caught up! 🎉" message
 
 ### Explore Page
 **Discover Your Interests**
@@ -71,19 +72,19 @@ TechaNewz is designed **mobile-first** with a strong desktop experience. It focu
 ### Profile Page
 **Your Personal Hub**
 
-- 👤 **User Avatar**: Gradient-themed profile icon
-- 🆔 **User ID**: Your unique identifier
+- 👤 **User Avatar**: Google photo or gradient-themed icon
+- 🧑 **Display Name & Email**: Pulled from your authenticated account
 - 📊 **Stats Cards**: Member since date, preferred topics count
 - 🔔 **Notification Toggle**: Beautiful animated switch
-- 📧 **Coming Soon**: Email preferences (placeholder)
+- 🚪 **Sign Out**: Securely log out from your account
 - ℹ️ **About Section**: App info and stats (24/7 updates, 25+ categories)
 - 🏷️ **Version Info**: Current app version
 - 📱 **Responsive**: Optimized for all screen sizes
 
 **User Flow:**
-1. View profile info and stats
+1. View account info and stats
 2. Toggle notification preferences
-3. Learn about TechaNewz features
+3. Sign out when needed
 
 ### Bottom Navigation
 **Thumb-Zone Friendly**
@@ -179,7 +180,7 @@ TechaNewz is designed **mobile-first** with a strong desktop experience. It focu
 ## 🎯 User Engagement Features
 
 ### Personalization
-- **Unique User ID**: Auto-generated, stored locally
+- **Authenticated Identity**: Account synced via Google or email
 - **View History**: Track what you've read
 - **Preference Storage**: Remember your settings
 - **Custom Feed**: Based on your behavior
@@ -225,7 +226,7 @@ The app is structured to easily add analytics:
 2. **Infinite Scroll**: More engaging than pagination
 3. **Beautiful Design**: Modern, professional appearance
 4. **Fast Performance**: Instant interactions
-5. **No Sign-up**: Start using immediately
+5. **Google & Email Auth**: Quick sign-in, synced across devices
 6. **Clean UI**: No ads, no clutter
 7. **Tech-Focused**: Curated for tech enthusiasts
 
@@ -240,7 +241,6 @@ The app is structured to easily add analytics:
 ## 📈 Future Enhancements
 
 ### Phase 2
-- User accounts with sync
 - Bookmarking system
 - Sharing functionality
 - Comment system
