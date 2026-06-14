@@ -1,187 +1,208 @@
 @import '../../styles/designSystem.scss';
 
+// ============================================
+// Home Page
+// ============================================
+
 .home {
-  min-height: 100vh;
+  // Full viewport scroll container on mobile
   height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  
-  // Mobile: Enable scroll snapping for card-by-card experience
-  @media (max-width: 767px) {
+  @include hide-scrollbar;
+
+  // Mobile: single-card snap scroll
+  @include breakpoint-max(md) {
     scroll-snap-type: y mandatory;
-    scroll-padding-top: 0;
     scroll-behavior: smooth;
   }
-  
+
   @include breakpoint(md) {
     height: auto;
     min-height: 100vh;
-    padding: spacing(8) 0;
+    padding: spacing(8) 0 spacing(12);
+    overflow-y: visible;
     scroll-snap-type: none;
   }
 }
+
+// ============================================
+// Desktop container
+// ============================================
 
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 spacing(4);
-  
+
   @include breakpoint(md) {
     padding: 0 spacing(6);
   }
-  
+
   @include breakpoint(lg) {
     padding: 0 spacing(8);
   }
 }
 
 // ============================================
-// Hero Section
+// Hero (desktop only)
 // ============================================
 
 .hero {
   text-align: center;
-  margin-bottom: spacing(8);
-  animation: fadeIn 0.6s ease-out;
-  
+  padding: spacing(8) 0 spacing(6);
+  animation: fadeIn 0.5s ease-out;
+
   @include breakpoint(md) {
-    margin-bottom: spacing(12);
+    padding: spacing(12) 0 spacing(8);
   }
 }
 
 .heroTitle {
-  @include typography(2xl, bold, tight);
+  font-size: font-size(3xl);
+  font-weight: font-weight(bold);
+  line-height: line-height(tight);
+  letter-spacing: letter-spacing(tight);
   @include gradient-text;
-  margin: 0 0 spacing(4);
-  
+  margin: 0 0 spacing(3);
+
   @include breakpoint(md) {
-    @include typography(4xl, bold, tight);
+    font-size: font-size(5xl);
+    margin-bottom: spacing(4);
   }
 }
 
 .heroSubtitle {
-  @include typography(base, normal, relaxed);
+  font-size: font-size(base);
   color: color(text-secondary);
-  max-width: 600px;
+  max-width: 520px;
   margin: 0 auto;
-  
+  line-height: line-height(relaxed);
+
   @include breakpoint(md) {
-    @include typography(lg, normal, relaxed);
+    font-size: font-size(lg);
   }
 }
 
 // ============================================
-// Feed Header
+// Feed header
 // ============================================
 
 .feedHeader {
   @include flex-between;
-  margin-bottom: spacing(6);
+  margin-bottom: spacing(5);
   padding-bottom: spacing(4);
   border-bottom: 1px solid color(divider);
-  animation: slideDown 0.4s ease-out;
+  animation: slideDown 0.35s ease-out;
 }
 
 .feedTitle {
-  @include typography(xl, semibold, tight);
+  font-size: font-size(xl);
+  font-weight: font-weight(semibold);
+  letter-spacing: letter-spacing(tight);
   color: color(text-primary);
   margin: 0;
-  
+
   @include breakpoint(md) {
-    @include typography(2xl, semibold, tight);
+    font-size: font-size(2xl);
   }
 }
 
 .feedCount {
-  @include typography(sm, medium, normal);
-  color: color(text-tertiary);
-  padding: spacing(2) spacing(4);
+  font-size: font-size(xs);
+  font-weight: font-weight(semibold);
+  letter-spacing: 0.02em;
+  color: color(text-muted);
+  padding: spacing(1) spacing(3);
   background-color: color(tertiary-bg);
   border-radius: radius(full);
   border: 1px solid color(border-subtle);
 }
 
 // ============================================
-// News Scroll Container - Single Item View on Mobile
+// News scroll container
 // ============================================
 
 .newsScrollContainer {
   display: flex;
   flex-direction: column;
-  
-  // Mobile: Card-by-card scroll snapping
-  @media (max-width: 767px) {
-    gap: 0; // No gap between cards for smooth snapping
+
+  @include breakpoint-max(md) {
+    gap: 0;
   }
-  
-  // Desktop: Grid layout
+
   @include breakpoint(md) {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 spacing(6);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: spacing(6);
+    gap: spacing(5);
   }
-  
+
   @include breakpoint(lg) {
     grid-template-columns: repeat(3, 1fr);
-    gap: spacing(8);
+    gap: spacing(6);
   }
 }
+
+// ============================================
+// Individual card wrapper
+// ============================================
 
 .newsItemWrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
-  
-  // Mobile: Exactly one card per viewport (no next card peeking)
-  @media (max-width: 767px) {
+
+  // Mobile: one card fills the viewport
+  @include breakpoint-max(md) {
     height: 100vh;
+    height: 100dvh;
     min-height: 100vh;
+    min-height: 100dvh;
     max-height: 100vh;
-    padding: spacing(4) spacing(4) calc(68px + env(safe-area-inset-bottom, 0)) spacing(4);
+    max-height: 100dvh;
+    padding: spacing(3) 0 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     flex-shrink: 0;
-    // Support dynamic viewport on mobile (address bar show/hide)
-    @supports (height: 100dvh) {
-      height: 100dvh;
-      min-height: 100dvh;
-      max-height: 100dvh;
-    }
   }
-  
-  // Desktop: Auto height
+
   @include breakpoint(md) {
+    height: auto;
     min-height: auto;
     max-height: none;
-    height: auto;
     padding: 0;
     scroll-snap-align: none;
   }
 }
 
 // ============================================
-// Loading States
+// Loading state
 // ============================================
 
 .loadingContainer {
   @include flex-center;
   @include flex-column;
   gap: spacing(4);
-  min-height: calc(100vh - 80px);
-  padding: spacing(20) spacing(4);
-  animation: fadeIn 0.3s ease-out;
-  
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: spacing(16) spacing(4);
+  animation: fadeIn 0.25s ease-out;
+
   @include breakpoint(md) {
-    min-height: auto;
+    min-height: 400px;
+    padding: spacing(20) spacing(4);
   }
 }
 
 .loadingText {
-  @include typography(base, medium, normal);
-  color: color(text-secondary);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
+  color: color(text-tertiary);
+  letter-spacing: 0.01em;
 }
 
 .loadingMore {
@@ -189,76 +210,67 @@
   @include flex-column;
   gap: spacing(3);
   padding: spacing(8) spacing(4);
-  @include typography(sm, medium, normal);
-  color: color(text-secondary);
+  font-size: font-size(sm);
+  color: color(text-tertiary);
 }
 
 // ============================================
-// Error State
+// Error state
 // ============================================
 
 .errorContainer {
   @include flex-center;
   @include flex-column;
   gap: spacing(4);
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
+  min-height: 100dvh;
   padding: spacing(16) spacing(4);
   text-align: center;
-  animation: scaleIn 0.4s ease-out;
-  
+  animation: scaleIn 0.3s ease-out;
+
   @include breakpoint(md) {
-    min-height: auto;
+    min-height: 400px;
   }
 }
 
 .errorIcon {
-  font-size: font-size(5xl);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  font-size: 3rem;
+  opacity: 0.5;
+  animation: pulse 2.5s ease-in-out infinite;
 }
 
 .errorTitle {
-  @include typography(xl, semibold, tight);
+  font-size: font-size(xl);
+  font-weight: font-weight(semibold);
+  letter-spacing: letter-spacing(tight);
   color: color(text-primary);
   margin: 0;
-  
-  @include breakpoint(md) {
-    @include typography(2xl, semibold, tight);
-  }
 }
 
 .errorMessage {
-  @include typography(base, normal, relaxed);
+  font-size: font-size(sm);
+  line-height: line-height(relaxed);
   color: color(text-secondary);
-  max-width: 500px;
+  max-width: 440px;
   margin: 0;
 }
 
 .retryButton {
-  @include button-base;
-  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
-  color: color(text-primary);
-  margin-top: spacing(4);
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: shadow(glow-strong);
-  }
+  @include button-primary;
+  margin-top: spacing(2);
 }
 
 // ============================================
-// Infinite Scroll
+// Sentinel (infinite scroll trigger)
 // ============================================
 
 .sentinel {
-  min-height: 100px;
   @include flex-center;
-  
-  // Mobile: Full viewport slot for "caught up" / loading more
-  @media (max-width: 767px) {
+  min-height: 80px;
+
+  @include breakpoint-max(md) {
     min-height: 100vh;
-    @supports (height: 100dvh) {
-      min-height: 100dvh;
-    }
+    min-height: 100dvh;
     scroll-snap-align: start;
     scroll-snap-stop: normal;
   }
@@ -267,44 +279,32 @@
 .endMessage {
   @include flex-center;
   padding: spacing(8) spacing(4);
-  @include typography(base, medium, normal);
-  color: color(text-tertiary);
-  
+
   span {
-    padding: spacing(3) spacing(6);
+    font-size: font-size(xs);
+    font-weight: font-weight(medium);
+    letter-spacing: 0.04em;
+    color: color(text-muted);
+    padding: spacing(2) spacing(5);
     background-color: color(tertiary-bg);
     border-radius: radius(full);
     border: 1px solid color(border-subtle);
+    text-transform: uppercase;
   }
 }
 
 // ============================================
-// Animations
+// Local keyframes
 // ============================================
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideDown {
   from {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     opacity: 0;
   }
   to {
@@ -315,11 +315,147 @@
 
 @keyframes scaleIn {
   from {
-    transform: scale(0.9);
+    transform: scale(0.94);
     opacity: 0;
   }
   to {
     transform: scale(1);
     opacity: 1;
   }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+// ============================================
+// Reading-progress bar (mobile immersive feed)
+// ============================================
+
+.progressTrack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: z(fixed);
+  background: rgba(255, 255, 255, 0.04);
+  padding-top: env(safe-area-inset-top, 0);
+
+  @include breakpoint(lg) {
+    display: none; // desktop scrolls the window; bar is for the snap feed
+  }
+}
+
+.progressFill {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, color(accent-primary), color(accent-secondary));
+  box-shadow: 0 0 10px rgba(10, 132, 255, 0.7);
+  will-change: transform;
+}
+
+// ============================================
+// Skeleton feed (loading)
+// ============================================
+
+.skeletonFeed {
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint(md) {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: spacing(8) spacing(6) 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing(5);
+  }
+
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: spacing(6);
+  }
+}
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(4);
+  animation: fadeIn 0.3s ease-out;
+
+  @include breakpoint-max(md) {
+    height: 100vh;
+    height: 100dvh;
+    padding: spacing(3) spacing(3) 0;
+  }
+
+  @include breakpoint(md) {
+    @include card-base;
+    padding: 0 0 spacing(5);
+    overflow: hidden;
+    gap: spacing(5);
+  }
+}
+
+.skelImage {
+  @include skeleton-loading;
+  width: 100%;
+  border-radius: radius(2xl);
+  aspect-ratio: 16 / 9;
+
+  @include breakpoint-max(md) {
+    flex: 1 1 52%;
+    aspect-ratio: auto;
+  }
+
+  @include breakpoint(md) {
+    border-radius: 0;
+  }
+}
+
+.skelBody {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(3);
+
+  @include breakpoint(md) {
+    padding: 0 spacing(5);
+  }
+}
+
+.skelLine {
+  @include skeleton-loading;
+  height: 18px;
+  border-radius: radius(sm);
+}
+
+.skelLineSm {
+  @include skeleton-loading;
+  height: 11px;
+  border-radius: radius(xs);
+}
+
+.skelTags {
+  display: flex;
+  gap: spacing(2);
+  margin-top: spacing(2);
+}
+
+.skelTag {
+  @include skeleton-loading;
+  width: 64px;
+  height: 22px;
+  border-radius: radius(full);
+}
+
+// ============================================
+// End message refinement
+// ============================================
+
+.endMessage span {
+  @include display-font(medium);
 }

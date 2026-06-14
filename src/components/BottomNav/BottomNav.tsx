@@ -18,6 +18,10 @@ export const BottomNav = () => {
   ];
 
   const currentPath = location.pathname;
+  const activeIndex = Math.max(
+    0,
+    tabs.findIndex((t) => t.path === currentPath)
+  );
 
   const handleTabClick = (path: string) => {
     navigate(path);
@@ -26,6 +30,13 @@ export const BottomNav = () => {
   return (
     <nav className={styles.bottomNav} role="navigation" aria-label="Main navigation">
       <div className={styles.navContainer}>
+        {/* Sliding active pill — moves between tabs */}
+        <span
+          className={styles.pill}
+          style={{ transform: `translateX(${activeIndex * 100}%)` }}
+          aria-hidden="true"
+        />
+
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = currentPath === tab.path;
@@ -39,8 +50,7 @@ export const BottomNav = () => {
               aria-current={isActive ? 'page' : undefined}
             >
               <div className={styles.iconWrapper}>
-                <Icon className={styles.icon} size={18} />
-                {isActive && <div className={styles.activeIndicator} />}
+                <Icon className={styles.icon} size={20} />
               </div>
               <span className={styles.label}>{tab.label}</span>
             </button>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { env } from '@/config/env';
 
 // ============================================
 // Mudra API types
@@ -25,7 +26,7 @@ export interface MudraAuthResponse {
 // ============================================
 
 const mudraClient = axios.create({
-  baseURL: import.meta.env.VITE_MUDRA_BASE_URL || 'http://localhost:3001',
+  baseURL: env.MUDRA_BASE_URL,
   timeout: 15000,
   headers: { 'Content-Type': 'application/json', 'X-App-ID': 'techanewz' },
 });

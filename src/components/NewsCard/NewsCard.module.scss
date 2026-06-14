@@ -1,31 +1,45 @@
 @import '../../styles/designSystem.scss';
 
+// ============================================
+// Card Container
+// ============================================
+
 .card {
   @include card-base;
+  @include spotlight-border;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
   position: relative;
-  
-  // Mobile: Full height card
-  @media (max-width: 767px) {
+
+  // Mobile: edge-to-edge, full viewport
+  @include breakpoint-max(md) {
     height: 100%;
     border-radius: 0;
-    box-shadow: none;
-    background-color: color(primary-bg);
+    border-left: none;
+    border-right: none;
+    background-color: transparent; // let the ambient scene show around content
+    &::after { display: none; } // no spotlight border on mobile full-bleed
   }
-  
+
   @include breakpoint(md) {
     cursor: pointer;
-    
+    transition: transform transition(spring), box-shadow transition(base), border-color transition(base), background-color transition(base);
+    will-change: transform;
+
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: shadow(xl);
+      transform: translateY(-6px);
+      box-shadow: shadow(lg), shadow(glow-subtle);
+      border-color: color(border-medium);
+
+      .image.imageLoaded { transform: scale(1.06); }
+      .readMoreButton { background-color: color(accent-primary); color: #fff; }
     }
-    
+
     &:active {
-      transform: scale(0.99);
+      transform: translateY(-2px);
+      box-shadow: shadow(md);
     }
   }
 }
@@ -40,6 +54,16 @@
   aspect-ratio: 16 / 9;
   background-color: color(tertiary-bg);
   overflow: hidden;
+  flex-shrink: 0;
+
+  // Taller, more immersive image on mobile full-screen view
+  @include breakpoint-max(md) {
+    aspect-ratio: auto;
+    flex: 1 1 52%;
+    min-height: 0;
+    border-radius: radius(2xl);
+    margin: 0 spacing(3) spacing(1);
+  }
 }
 
 .image {
@@ -47,45 +71,97 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity transition(base);
-  
+  transform: scale(1.08);
+  transition: opacity 0.6s ease, transform 0.6s $ease-out-expo;
+
   &.imageLoaded {
     opacity: 1;
+    transform: scale(1);
   }
+
+  // Slow Ken Burns drift on the focused mobile card
+  @include breakpoint-max(md) {
+    @media (prefers-reduced-motion: no-preference) {
+      .card[data-revealed='true'] &.imageLoaded {
+        animation: kenburns 18s ease-out forwards;
+      }
+    }
+  }
+}
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.1); }
 }
 
 .imageSkeleton {
   @include skeleton-loading;
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
 }
 
 .imagePlaceholder {
   @include flex-center;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, color(tertiary-bg), color(secondary-bg));
-  color: color(text-tertiary);
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, color(tertiary-bg) 0%, color(secondary-bg) 100%);
+  color: color(text-muted);
 }
 
+// Image gradient overlay (bottom fade for readability)
+.imageGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(8, 8, 8, 0.78) 0%, rgba(8, 8, 8, 0.18) 55%, transparent 100%);
+  pointer-events: none;
+
+  @include breakpoint(md) {
+    height: 42%;
+    background: linear-gradient(to top, rgba(8, 8, 8, 0.55) 0%, transparent 100%);
+  }
+}
+
+// Source badge — glass pill in image
 .sourceBadge {
   position: absolute;
   top: spacing(3);
   left: spacing(3);
-  @include glass-effect;
+  display: flex;
+  align-items: center;
+  gap: spacing(2);
+  @include glass-card;
   padding: spacing(1) spacing(3);
-  border-radius: radius(md);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-radius: radius(full);
+  max-width: calc(100% - spacing(3) * 2);
+  box-shadow: shadow(sm);
+
+  .card[data-revealed='true'] & {
+    @include enter-rise(60ms, 500ms);
+  }
+}
+
+.sourceDot {
+  width: 6px;
+  height: 6px;
+  border-radius: radius(full);
+  background-color: color(accent-primary);
+  box-shadow: 0 0 8px color(accent-primary);
+  flex-shrink: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pulse 2.4s ease-in-out infinite;
+  }
 }
 
 .sourceText {
-  @include typography(xs, medium, normal);
+  font-size: font-size(xs);
+  font-weight: font-weight(semibold);
+  letter-spacing: 0.01em;
   color: color(text-primary);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  @include truncate(1);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 // ============================================
@@ -93,14 +169,22 @@
 // ============================================
 
 .content {
-  padding: spacing(4);
+  padding: spacing(4) spacing(4) spacing(3);
   display: flex;
   flex-direction: column;
   gap: spacing(3);
   flex: 1;
+  // Scrollable on mobile full-screen view
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  
+  @include hide-scrollbar;
+
+  @include breakpoint-max(md) {
+    flex: 1 1 48%;
+    padding: spacing(3) spacing(5) spacing(4);
+    gap: spacing(3);
+  }
+
   @include breakpoint(md) {
     padding: spacing(5);
     gap: spacing(4);
@@ -108,41 +192,53 @@
   }
 }
 
+// Staggered reveal of content blocks once the card is in focus
+@media (prefers-reduced-motion: no-preference) {
+  .card[data-revealed='true'] {
+    .title       { animation: enterRise 0.55s $ease-out-expo 0.08s both; }
+    .description { animation: enterRise 0.55s $ease-out-expo 0.16s both; }
+    .tags        { animation: enterRise 0.55s $ease-out-expo 0.24s both; }
+    .footer      { animation: enterRise 0.55s $ease-out-expo 0.32s both; }
+  }
+}
+
 .title {
-  @include typography(lg, semibold, tight);
+  @include display-font(semibold);
+  font-size: font-size(lg);
+  line-height: line-height(snug);
   color: color(text-primary);
   margin: 0;
-  
-  // Mobile: Allow title to wrap fully
-  @media (max-width: 767px) {
-    line-height: 1.4;
-    margin-bottom: spacing(2);
+
+  @include breakpoint-max(md) {
+    font-size: font-size(2xl);
+    line-height: 1.25;
   }
-  
+
   @include breakpoint(md) {
+    font-size: font-size(xl);
     @include truncate(2);
   }
 }
 
 .description {
-  @include typography(sm, normal, relaxed);
+  font-size: font-size(sm);
+  font-weight: font-weight(normal);
+  line-height: line-height(relaxed);
   color: color(text-secondary);
   margin: 0;
   flex: 1;
-  
-  // Mobile: Show full description with scroll
-  @media (max-width: 767px) {
-    // Remove truncate on mobile
-    line-height: 1.6;
+
+  @include breakpoint-max(md) {
+    font-size: font-size(base);
   }
-  
+
   @include breakpoint(md) {
     @include truncate(3);
   }
 }
 
 // ============================================
-// Tags Section
+// Tags
 // ============================================
 
 .tags {
@@ -153,38 +249,47 @@
 }
 
 .tag {
-  @include typography(xs, medium, normal);
-  padding: spacing(1) spacing(3);
-  background-color: color(tertiary-bg);
+  font-size: font-size(xs);
+  font-weight: font-weight(medium);
+  padding: 3px spacing(3);
+  background-color: color(accent-primary-subtle);
   color: color(accent-primary);
   border-radius: radius(full);
-  border: 1px solid color(border-subtle);
-  transition: all transition(base);
-  
+  border: 1px solid rgba(10, 132, 255, 0.18);
+  letter-spacing: 0.01em;
+  transition: transform transition(spring), background-color transition(fast), border-color transition(fast);
+  line-height: 1.5;
+  cursor: default;
+
   &:hover {
-    background-color: color(secondary-bg);
-    border-color: color(accent-primary);
+    background-color: rgba(10, 132, 255, 0.2);
+    border-color: rgba(10, 132, 255, 0.35);
+    transform: translateY(-1px);
   }
 }
 
 .tagMore {
-  @include typography(xs, medium, normal);
-  padding: spacing(1) spacing(3);
+  font-size: font-size(xs);
+  font-weight: font-weight(medium);
+  padding: 3px spacing(3);
   background-color: transparent;
-  color: color(text-tertiary);
+  color: color(text-muted);
   border-radius: radius(full);
   border: 1px dashed color(border-medium);
   cursor: pointer;
-  font: inherit;
+  font-family: inherit;
+  line-height: 1.5;
+  transition: all transition(fast);
 
   &:hover {
     color: color(accent-primary);
     border-color: color(accent-primary);
+    background-color: color(accent-primary-subtle);
   }
 }
 
 // ============================================
-// Footer Section
+// Footer
 // ============================================
 
 .footer {
@@ -192,72 +297,60 @@
   padding-top: spacing(3);
   border-top: 1px solid color(divider);
   margin-top: auto;
+  gap: spacing(3);
+  flex-shrink: 0;
 }
 
 .metadata {
   display: flex;
   align-items: center;
   gap: spacing(2);
-  @include typography(xs, normal, normal);
-  color: color(text-tertiary);
-  
+  font-size: font-size(xs);
+  color: color(text-muted);
+  flex-shrink: 0;
+
   svg {
     flex-shrink: 0;
+    opacity: 0.7;
   }
 }
 
 .readMoreButton {
   @include flex-center;
+  @include pressable(0.95);
   gap: spacing(2);
   padding: spacing(2) spacing(4);
-  @include typography(sm, medium, normal);
+  font-size: font-size(xs);
+  font-weight: font-weight(semibold);
+  font-family: inherit;
+  letter-spacing: 0.01em;
   color: color(accent-primary);
-  background-color: transparent;
-  border: 1px solid color(accent-primary);
+  background-color: color(accent-primary-subtle);
+  border: 1px solid rgba(10, 132, 255, 0.22);
   border-radius: radius(lg);
-  transition: all transition(base);
-  @include touch-target;
-  
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+
   &:hover {
     background-color: color(accent-primary);
-    color: color(primary-bg);
-    transform: translateY(-1px);
-    box-shadow: shadow(glow);
+    color: #fff;
+    border-color: color(accent-primary);
+    box-shadow: shadow(glow-subtle);
+
+    svg { transform: translate(2px, -2px); }
   }
-  
-  &:active {
-    transform: translateY(0);
-  }
-  
+
   svg {
-    transition: transform transition(base);
-  }
-  
-  &:hover svg {
-    transform: translateX(2px);
+    transition: transform transition(spring);
   }
 }
 
 // ============================================
-// Responsive Design
+// Desktop overrides
 // ============================================
 
 @include breakpoint(md) {
-  .content {
-    padding: spacing(5);
-    gap: spacing(4);
-  }
-  
-  .title {
-    @include typography(xl, semibold, tight);
-  }
-  
-  .description {
-    @include typography(base, normal, relaxed);
-  }
-}
-
-@include breakpoint(lg) {
   .sourceBadge {
     top: spacing(4);
     left: spacing(4);

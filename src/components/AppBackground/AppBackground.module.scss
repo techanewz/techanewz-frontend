@@ -1,0 +1,98 @@
+@import '../../styles/designSystem.scss';
+
+// ============================================
+// Ambient background scene — fixed, behind all content
+// ============================================
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(10, 132, 255, 0.10) 0%, transparent 55%),
+    radial-gradient(90% 70% at 100% 110%, rgba(56, 189, 248, 0.07) 0%, transparent 60%),
+    color(primary-bg);
+}
+
+// ============================================
+// Aurora orbs — soft drifting light
+// ============================================
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  will-change: transform;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+}
+
+.orbA {
+  top: -16%;
+  left: -8%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 620px;
+  max-height: 620px;
+  background: radial-gradient(circle at 30% 30%, rgba(10, 132, 255, 0.55), transparent 68%);
+  animation: auroraDrift 26s ease-in-out infinite;
+}
+
+.orbB {
+  bottom: -22%;
+  right: -12%;
+  width: 52vw;
+  height: 52vw;
+  max-width: 700px;
+  max-height: 700px;
+  background: radial-gradient(circle at 60% 40%, rgba(56, 189, 248, 0.40), transparent 70%);
+  animation: auroraDriftAlt 32s ease-in-out infinite;
+}
+
+.orbC {
+  top: 38%;
+  left: 52%;
+  width: 30vw;
+  height: 30vw;
+  max-width: 420px;
+  max-height: 420px;
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.22), transparent 72%);
+  opacity: 0.35;
+  animation: auroraDrift 38s ease-in-out infinite reverse;
+}
+
+// ============================================
+// Faint engineering grid (top-anchored, masked)
+// ============================================
+
+.grid {
+  @include grid-overlay(46px, 0.022);
+}
+
+// ============================================
+// Film grain — texture, very subtle
+// ============================================
+
+.grain {
+  @include grain-overlay(0.035);
+}
+
+// ============================================
+// Auth variant — richer, more saturated entrance scene
+// ============================================
+
+.auth {
+  background:
+    radial-gradient(110% 90% at 50% -20%, rgba(10, 132, 255, 0.18) 0%, transparent 58%),
+    radial-gradient(90% 80% at 0% 120%, rgba(56, 189, 248, 0.12) 0%, transparent 60%),
+    color(primary-bg);
+
+  .orb { opacity: 0.7; }
+  .orbA { width: 60vw; height: 60vw; }
+  .orbB { width: 64vw; height: 64vw; }
+}

@@ -3,16 +3,13 @@
 .topBar {
   position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: z(sticky);
   @include glass-effect;
-  border-bottom: 1px solid color(border-subtle);
+  @include neon-border-bottom;
   padding-top: env(safe-area-inset-top, 0);
-  
-  // Hide TopBar on mobile view
+  // Hidden on mobile — BottomNav handles nav
   display: none;
-  
+
   @include breakpoint(md) {
     display: block;
   }
@@ -22,92 +19,97 @@
   @include flex-between;
   max-width: 1280px;
   margin: 0 auto;
-  padding: spacing(4);
-  
-  @include breakpoint(md) {
-    padding: spacing(5) spacing(6);
-  }
-  
+  padding: spacing(4) spacing(6);
+  height: 60px;
+
   @include breakpoint(lg) {
-    padding: spacing(5) spacing(8);
+    padding: spacing(4) spacing(8);
   }
 }
 
 // ============================================
-// Logo Section
+// Logo
 // ============================================
 
 .logo {
   display: flex;
   align-items: center;
   gap: spacing(3);
-}
+  transition: opacity transition(fast);
 
-.logoImg {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  object-fit: contain;
-}
+  &:hover {
+    opacity: 0.85;
+  }
 
-.title {
-  @include typography(xl, bold, normal);
-  @include gradient-text;
-  margin: 0;
-  user-select: none;
-  
-  @include breakpoint(md) {
-    @include typography(2xl, bold, normal);
+  &:active {
+    opacity: 0.7;
   }
 }
 
+.logoImg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: breathe 4s ease-in-out infinite;
+  }
+}
+
+.title {
+  @include display-font(bold);
+  font-size: font-size(lg);
+  @include gradient-text-animated;
+  margin: 0;
+  user-select: none;
+}
+
 // ============================================
-// Notification Button
+// Notification button
 // ============================================
 
 .notificationButton {
   position: relative;
   @include flex-center;
   @include touch-target;
+  @include focus-ring;
   padding: spacing(2);
-  background-color: transparent;
+  background-color: color(tertiary-bg);
   border: 1px solid color(border-subtle);
   border-radius: radius(lg);
-  color: color(text-primary);
+  color: color(text-secondary);
   cursor: pointer;
   transition: all transition(base);
-  
+
   &:hover {
-    background-color: color(hover-overlay);
+    background-color: color(surface);
     border-color: color(border-medium);
+    color: color(text-primary);
   }
-  
+
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.94);
   }
 }
 
 .badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -5px;
+  right: -5px;
   @include flex-center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 spacing(1);
+  min-width: 17px;
+  height: 17px;
+  padding: 0 3px;
   background-color: color(error);
-  color: color(text-primary);
-  @include typography(xs, bold, normal);
+  color: #fff;
+  font-size: 10px;
+  font-weight: font-weight(bold);
   border-radius: radius(full);
   border: 2px solid color(primary-bg);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse 2.5s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
 }

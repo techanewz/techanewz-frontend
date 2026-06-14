@@ -7,122 +7,119 @@
   right: 0;
   z-index: z(fixed);
   @include glass-effect;
-  border-top: 1px solid color(border-subtle);
-  padding: 2px 0;
-  padding-bottom: calc(2px + env(safe-area-inset-bottom, 0));
-  
-  // Hide on desktop
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35);
+  // Safe area for notched phones
+  padding-bottom: env(safe-area-inset-bottom, 0);
+
   @include breakpoint(lg) {
     display: none;
   }
 }
 
 .navContainer {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  justify-items: center;
-  max-width: 600px;
+  max-width: 480px;
   margin: 0 auto;
+  height: 60px;
+  padding: spacing(2) spacing(2);
+}
+
+// Sliding active pill behind the focused tab
+.pill {
+  position: absolute;
+  top: spacing(2);
+  left: spacing(2);
+  width: calc((100% - #{spacing(4)}) / 3);
+  height: calc(100% - #{spacing(4)});
+  background: linear-gradient(160deg, rgba(10, 132, 255, 0.20), rgba(10, 132, 255, 0.08));
+  border: 1px solid rgba(10, 132, 255, 0.30);
+  border-radius: radius(lg);
+  box-shadow: shadow(glow-subtle), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform transition(spring);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .navButton {
   @include flex-center;
   @include flex-column;
-  gap: 1px;
-  padding: 2px spacing(2);
+  position: relative;
+  z-index: 1;
+  gap: 3px;
+  padding: spacing(1);
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all transition(base);
-  position: relative;
-  min-height: 32px;
-  min-width: 44px;
-  
+  transition: transform transition(spring);
+  @include focus-ring;
+
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
 }
 
 .iconWrapper {
   position: relative;
   @include flex-center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+  transition: transform transition(spring);
+
+  .navButton.active & {
+    transform: translateY(-1px) scale(1.06);
+  }
 }
 
 .icon {
-  color: color(text-tertiary);
-  transition: all transition(base);
-  
+  color: color(text-muted);
+  transition: color transition(base), filter transition(base);
+
   .navButton.active & {
     color: color(accent-primary);
+    filter: drop-shadow(0 0 8px rgba(10, 132, 255, 0.6));
   }
-  
+
   .navButton:hover:not(.active) & {
     color: color(text-secondary);
   }
 }
 
 .label {
-  @include typography(xs, medium, normal);
-  color: color(text-tertiary);
-  transition: all transition(base);
-  
+  font-size: 10px;
+  font-weight: font-weight(semibold);
+  letter-spacing: 0.02em;
+  color: color(text-muted);
+  transition: color transition(base);
+  line-height: 1;
+
   .navButton.active & {
-    color: color(text-primary);
+    color: color(accent-primary);
   }
-  
+
   .navButton:hover:not(.active) & {
     color: color(text-secondary);
   }
 }
 
+// Dot for unauthenticated state on profile tab
 .signInDot {
   position: absolute;
   top: -2px;
-  right: -4px;
-  width: 7px;
-  height: 7px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
   background-color: color(accent-primary);
   border-radius: radius(full);
-  border: 1.5px solid color(bg-primary);
-  box-shadow: shadow(glow);
+  border: 1.5px solid color(primary-bg);
+  box-shadow: 0 0 6px color(accent-primary);
 }
 
-.activeIndicator {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  background-color: color(accent-primary);
-  border-radius: radius(full);
-  box-shadow: shadow(glow);
-  animation: scaleIn 0.2s ease-out;
-}
-
-@keyframes scaleIn {
-  from {
-    transform: translateX(-50%) scale(0);
-  }
-  to {
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-// ============================================
-// Tablet Layout
-// ============================================
-
+// Tablet: spread out
 @include breakpoint(md) {
   .navContainer {
-    max-width: 100%;
-    padding: 0 spacing(8);
-  }
-  
-  .navButton {
-    padding: 2px spacing(3);
+    max-width: 540px;
   }
 }

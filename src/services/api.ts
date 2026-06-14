@@ -1,12 +1,13 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import type { ApiResponse, ApiError, NewsItem, FeedParams, TagFilterParams } from '@/types';
 import { getAccessToken } from '@/services/auth';
+import { env } from '@/config/env';
 
 // ============================================
 // API Configuration
 // ============================================
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5005';
+const API_BASE_URL = env.API_BASE_URL;
 
 class ApiService {
   private client: AxiosInstance;

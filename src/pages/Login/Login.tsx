@@ -5,6 +5,7 @@ import { firebaseAuth } from '@/config/firebase';
 import { useUser } from '@/contexts/UserContext';
 import { mudraLogin, mudraRegister, mudraGoogleSignIn } from '@/services/mudra';
 import { isInWebView, requestNativeGoogleSignIn } from '@/hooks/useNativeBridge';
+import { AppBackground } from '@/components/AppBackground/AppBackground';
 import styles from './Login.module.scss';
 
 // ============================================
@@ -121,9 +122,15 @@ export const Login = () => {
 
   return (
     <div className={styles.page}>
+      {/* Ambient animated scene */}
+      <AppBackground variant="auth" />
+
       <div className={styles.card}>
         {/* Logo / Brand */}
         <div className={styles.brand}>
+          <div className={styles.logoMark}>
+            <img src="/Logo.svg" alt="" className={styles.logoImg} aria-hidden="true" />
+          </div>
           <h1 className={styles.brandName}>TechaNewz</h1>
           <p className={styles.brandTagline}>Your daily tech news digest</p>
         </div>

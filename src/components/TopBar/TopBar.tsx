@@ -1,4 +1,3 @@
-import { FiBell } from 'react-icons/fi';
 import styles from './TopBar.module.scss';
 
 // ============================================
@@ -7,6 +6,7 @@ import styles from './TopBar.module.scss';
 
 interface TopBarProps {
   title?: string;
+  // Notifications UI is hidden until the backend feature lands. Prop kept for API compatibility.
   showNotifications?: boolean;
 }
 
@@ -14,12 +14,7 @@ interface TopBarProps {
 // TopBar Component
 // ============================================
 
-export const TopBar = ({ title = 'TechaNewz', showNotifications = true }: TopBarProps) => {
-  const handleNotificationClick = () => {
-    // TODO: Implement notifications
-    console.log('Notifications clicked');
-  };
-
+export const TopBar = ({ title = 'TechaNewz' }: TopBarProps) => {
   return (
     <header className={styles.topBar}>
       <div className={styles.container}>
@@ -28,19 +23,6 @@ export const TopBar = ({ title = 'TechaNewz', showNotifications = true }: TopBar
           <img src="/Logo.svg" alt="TechaNewz" className={styles.logoImg} />
           <h1 className={styles.title}>{title}</h1>
         </div>
-
-        {/* Actions */}
-        {showNotifications && (
-          <button
-            className={styles.notificationButton}
-            onClick={handleNotificationClick}
-            aria-label="Notifications"
-          >
-            <FiBell size={22} />
-            {/* Notification badge */}
-            <span className={styles.badge}>3</span>
-          </button>
-        )}
       </div>
     </header>
   );

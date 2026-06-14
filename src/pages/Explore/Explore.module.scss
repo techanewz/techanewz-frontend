@@ -1,11 +1,15 @@
 @import '../../styles/designSystem.scss';
 
+// ============================================
+// Explore Page
+// ============================================
+
 .explore {
   min-height: 100vh;
-  padding: spacing(6) 0;
-  
+  padding: spacing(6) 0 spacing(12);
+
   @include breakpoint(md) {
-    padding: spacing(8) 0;
+    padding: spacing(8) 0 spacing(16);
   }
 }
 
@@ -13,58 +17,68 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 spacing(4);
-  
+
   @include breakpoint(md) {
     padding: 0 spacing(6);
   }
-  
+
   @include breakpoint(lg) {
     padding: 0 spacing(8);
   }
 }
 
 // ============================================
-// Header Section
+// Header
 // ============================================
 
 .header {
   text-align: center;
   margin-bottom: spacing(8);
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.45s ease-out;
+
+  @include breakpoint(md) {
+    margin-bottom: spacing(10);
+  }
 }
 
 .title {
-  @include typography(2xl, bold, tight);
+  font-size: font-size(3xl);
+  font-weight: font-weight(bold);
+  line-height: line-height(tight);
+  letter-spacing: letter-spacing(tight);
   @include gradient-text;
   margin: 0 0 spacing(3);
-  
+
   @include breakpoint(md) {
-    @include typography(4xl, bold, tight);
+    font-size: font-size(5xl);
+    margin-bottom: spacing(4);
   }
 }
 
 .subtitle {
-  @include typography(base, normal, relaxed);
+  font-size: font-size(base);
+  line-height: line-height(relaxed);
   color: color(text-secondary);
-  margin: 0;
-  
+  max-width: 480px;
+  margin: 0 auto;
+
   @include breakpoint(md) {
-    @include typography(lg, normal, relaxed);
+    font-size: font-size(lg);
   }
 }
 
 // ============================================
-// Search Section
+// Search
 // ============================================
 
 .searchContainer {
   margin-bottom: spacing(8);
-  animation: slideDown 0.4s ease-out;
+  animation: slideDown 0.35s ease-out;
 }
 
 .searchWrapper {
   position: relative;
-  max-width: 600px;
+  max-width: 560px;
   margin: 0 auto;
 }
 
@@ -73,18 +87,37 @@
   left: spacing(4);
   top: 50%;
   transform: translateY(-50%);
-  color: color(text-tertiary);
-  font-size: font-size(lg);
+  color: color(text-muted);
   pointer-events: none;
+  transition: color transition(fast);
 }
 
 .searchInput {
   @include input-base;
-  padding-left: spacing(12);
-  @include typography(base, normal, normal);
-  
+  padding-left: spacing(10);
+  font-size: font-size(base);
+  height: 48px;
+
+  &:focus ~ .searchIcon,
+  &:focus + .searchIcon {
+    color: color(accent-primary);
+  }
+
   @include breakpoint(md) {
-    @include typography(lg, normal, normal);
+    font-size: font-size(lg);
+    height: 52px;
+  }
+}
+
+// Focus glow on wrapper
+.searchWrapper:focus-within .searchIcon {
+  color: color(accent-primary);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.searchWrapper:focus-within {
+  .searchInput {
+    box-shadow: 0 0 0 3px color(focus-ring), shadow(glow-subtle);
   }
 }
 
@@ -94,60 +127,71 @@
 
 .tagsSection {
   margin-bottom: spacing(8);
-  animation: slideUp 0.5s ease-out;
+  animation: slideUp 0.4s ease-out;
 }
 
 .tagsSectionHeader {
   @include flex-between;
-  margin-bottom: spacing(6);
+  margin-bottom: spacing(5);
   padding-bottom: spacing(4);
   border-bottom: 1px solid color(divider);
 }
 
 .tagsTitle {
-  @include typography(xl, semibold, tight);
+  font-size: font-size(xl);
+  font-weight: font-weight(semibold);
+  letter-spacing: letter-spacing(tight);
   color: color(text-primary);
   margin: 0;
-  
+
   @include breakpoint(md) {
-    @include typography(2xl, semibold, tight);
+    font-size: font-size(2xl);
   }
 }
 
 .clearButton {
-  @include typography(sm, medium, normal);
+  font-size: font-size(xs);
+  font-weight: font-weight(semibold);
+  font-family: inherit;
+  letter-spacing: 0.03em;
   padding: spacing(2) spacing(4);
   background-color: transparent;
   color: color(accent-primary);
-  border: 1px solid color(accent-primary);
+  border: 1px solid rgba(10, 132, 255, 0.35);
   border-radius: radius(full);
   cursor: pointer;
   transition: all transition(base);
-  
+  @include focus-ring;
+
   &:hover {
-    background-color: color(accent-primary);
-    color: color(primary-bg);
+    background-color: color(accent-primary-subtle);
+    border-color: color(accent-primary);
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
 }
 
+// Responsive tag grid
 .tagsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: spacing(3);
-  
-  @include breakpoint(sm) {
+  gap: spacing(2);
+
+  @include breakpoint(xs) {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
+  @include breakpoint(sm) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: spacing(3);
+  }
+
   @include breakpoint(md) {
     grid-template-columns: repeat(4, 1fr);
-    gap: spacing(4);
   }
-  
+
   @include breakpoint(lg) {
     grid-template-columns: repeat(5, 1fr);
   }
@@ -155,93 +199,113 @@
 
 .tagButton {
   @include flex-between;
-  padding: spacing(4);
+  padding: spacing(3) spacing(4);
   background-color: color(card-bg);
   border: 1px solid color(border-subtle);
   border-radius: radius(lg);
-  @include typography(sm, medium, normal);
-  color: color(text-primary);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
+  font-family: inherit;
+  color: color(text-secondary);
   cursor: pointer;
-  transition: all transition(base);
-  @include touch-target;
-  
+  transition: transform transition(spring), background-color transition(base), border-color transition(base), color transition(base), box-shadow transition(base);
+  min-height: 44px;
+  @include focus-ring;
+
+  // Capped stagger entrance as the grid appears
+  @media (prefers-reduced-motion: no-preference) {
+    animation: popIn 0.45s $ease-out-expo both;
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) { animation-delay: #{$i * 35}ms; }
+    }
+  }
+
   &:hover {
     background-color: color(card-hover);
     border-color: color(border-medium);
-    transform: translateY(-2px);
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-  
-  &.selected {
-    background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
-    border-color: transparent;
     color: color(text-primary);
-    box-shadow: shadow(glow);
-    
+    transform: translateY(-3px);
+    box-shadow: shadow(sm);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &.selected {
+    background-color: color(accent-primary-subtle);
+    border-color: rgba(10, 132, 255, 0.4);
+    color: color(accent-primary);
+    box-shadow: shadow(glow-subtle);
+
+    .checkmark {
+      color: color(accent-primary);
+    }
+
     &:hover {
-      box-shadow: shadow(glow-strong);
+      box-shadow: shadow(glow);
     }
   }
-  
+
   @include breakpoint(md) {
-    @include typography(base, medium, normal);
-    padding: spacing(5);
+    font-size: font-size(base);
+    padding: spacing(4);
   }
 }
 
 .checkmark {
-  margin-left: spacing(2);
-  font-weight: font-weight(bold);
+  flex-shrink: 0;
+  font-size: font-size(sm);
 }
 
 .noResults {
   padding: spacing(8);
   text-align: center;
-  color: color(text-secondary);
+  color: color(text-tertiary);
+  font-size: font-size(sm);
 }
 
 // ============================================
-// Selected Info
+// Selected info pill
 // ============================================
 
 .selectedInfo {
-  padding: spacing(4);
-  background-color: color(tertiary-bg);
+  padding: spacing(3) spacing(4);
+  background-color: color(accent-primary-subtle);
   border-radius: radius(lg);
-  border: 1px solid color(border-subtle);
+  border: 1px solid rgba(10, 132, 255, 0.18);
   margin-bottom: spacing(6);
-  animation: scaleIn 0.3s ease-out;
+  animation: scaleIn 0.25s ease-out;
 }
 
 .selectedText {
-  @include typography(sm, medium, relaxed);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
   color: color(text-secondary);
-  
-  @include breakpoint(md) {
-    @include typography(base, medium, relaxed);
-  }
+  line-height: line-height(normal);
 }
 
 // ============================================
-// Results Section
+// Results header
 // ============================================
 
 .resultsHeader {
-  margin-bottom: spacing(6);
-  animation: fadeIn 0.4s ease-out;
+  margin-bottom: spacing(5);
+  animation: fadeIn 0.3s ease-out;
 }
 
 .resultsCount {
-  @include typography(sm, medium, normal);
-  color: color(text-tertiary);
+  display: inline-flex;
+  align-items: center;
+  font-size: font-size(xs);
+  font-weight: font-weight(semibold);
+  letter-spacing: 0.03em;
+  color: color(text-muted);
   padding: spacing(2) spacing(4);
   background-color: color(tertiary-bg);
   border-radius: radius(full);
   border: 1px solid color(border-subtle);
-  display: inline-block;
+  text-transform: uppercase;
 }
 
 // ============================================
@@ -253,126 +317,96 @@
   grid-template-columns: 1fr;
   gap: spacing(4);
   margin-bottom: spacing(6);
-  
+
   @include breakpoint(md) {
     grid-template-columns: repeat(2, 1fr);
-    gap: spacing(6);
+    gap: spacing(5);
   }
-  
+
   @include breakpoint(lg) {
     grid-template-columns: repeat(3, 1fr);
-    gap: spacing(8);
+    gap: spacing(6);
   }
-  
-  // Staggered animation
+
   > * {
-    animation: slideUp 0.5s ease-out backwards;
-    
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+
     @for $i from 1 through 12 {
       &:nth-child(#{$i}) {
-        animation-delay: #{$i * 0.05}s;
+        animation-delay: #{$i * 0.04}s;
       }
     }
   }
 }
 
 // ============================================
-// Loading State
+// Loading state
 // ============================================
 
 .loadingContainer {
   @include flex-center;
   @include flex-column;
   gap: spacing(4);
-  padding: spacing(20) spacing(4);
-  animation: fadeIn 0.3s ease-out;
+  padding: spacing(16) spacing(4);
+  animation: fadeIn 0.25s ease-out;
 }
 
 .loadingText {
-  @include typography(base, medium, normal);
-  color: color(text-secondary);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
+  color: color(text-tertiary);
 }
 
 // ============================================
-// Error State
+// Error / Empty states
 // ============================================
 
-.errorContainer {
-  @include flex-center;
-  @include flex-column;
-  gap: spacing(4);
-  padding: spacing(16) spacing(4);
-  text-align: center;
-  animation: scaleIn 0.4s ease-out;
-}
-
-.errorIcon {
-  font-size: font-size(5xl);
-}
-
-.errorTitle {
-  @include typography(xl, semibold, tight);
-  color: color(text-primary);
-  margin: 0;
-}
-
-.errorMessage {
-  @include typography(base, normal, relaxed);
-  color: color(text-secondary);
-  max-width: 500px;
-  margin: 0;
-}
-
-// ============================================
-// Empty State
-// ============================================
-
+.errorContainer,
 .emptyState {
   @include flex-center;
   @include flex-column;
   gap: spacing(4);
   padding: spacing(16) spacing(4);
   text-align: center;
-  animation: fadeIn 0.5s ease-out;
+  animation: scaleIn 0.3s ease-out;
 }
 
+.errorIcon,
 .emptyIcon {
-  font-size: font-size(5xl);
+  font-size: 2.5rem;
+  opacity: 0.4;
 }
 
+.errorTitle,
 .emptyTitle {
-  @include typography(xl, semibold, tight);
+  font-size: font-size(xl);
+  font-weight: font-weight(semibold);
+  letter-spacing: letter-spacing(tight);
   color: color(text-primary);
   margin: 0;
-  
-  @include breakpoint(md) {
-    @include typography(2xl, semibold, tight);
-  }
 }
 
+.errorMessage,
 .emptyMessage {
-  @include typography(base, normal, relaxed);
+  font-size: font-size(sm);
+  line-height: line-height(relaxed);
   color: color(text-secondary);
-  max-width: 500px;
+  max-width: 400px;
   margin: 0;
 }
 
 // ============================================
-// Animations
+// Keyframes
 // ============================================
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(14px);
     opacity: 0;
   }
   to {
@@ -394,7 +428,7 @@
 
 @keyframes scaleIn {
   from {
-    transform: scale(0.95);
+    transform: scale(0.96);
     opacity: 0;
   }
   to {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { FiExternalLink, FiClock, FiTag } from 'react-icons/fi';
+import { FiExternalLink, FiClock, FiTag, FiArrowUpRight } from 'react-icons/fi';
 import styles from './NewsCard.module.scss';
 import { formatRelativeTime, extractDomain } from '@/services/api';
 import type { NewsItem } from '@/types';
@@ -19,62 +19,63 @@ interface NewsCardProps {
 // NewsCard Component
 // ============================================
 
-export const NewsCard = ({ 
-  news, 
-  onView, 
+export const NewsCard = ({
+  news,
+  onView,
   onImageError,
-  autoMarkAsViewed = true 
+  autoMarkAsViewed = true,
 }: NewsCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [showAllTags, setShowAllTags] = useState(false);
+  // Drives the staggered content reveal once the card scrolls into focus
+  const [revealed, setRevealed] = useState(false);
   const cardRef = useRef<HTMLElement>(null);
   const hasBeenViewedRef = useRef(false);
 
   // Ensure we have a valid ID (handle both 'id' and '_id' from API)
   const newsId = news.id || (news as any)._id;
 
-  // Auto-mark as viewed when card becomes visible
+  // Single observer: triggers the entrance reveal and marks the article as viewed
   useEffect(() => {
-    if (!autoMarkAsViewed || !onView || !newsId || hasBeenViewedRef.current) {
-      return;
-    }
+    const currentCard = cardRef.current;
+    if (!currentCard) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasBeenViewedRef.current) {
+          if (!entry.isIntersecting) return;
+
+          // Reveal content as soon as a third of the card is on screen
+          if (entry.intersectionRatio >= 0.3) {
+            setRevealed(true);
+          }
+
+          // Count as "viewed" once half the card is visible
+          if (
+            autoMarkAsViewed &&
+            onView &&
+            newsId &&
+            !hasBeenViewedRef.current &&
+            entry.intersectionRatio >= 0.5
+          ) {
             hasBeenViewedRef.current = true;
             onView(newsId);
           }
         });
       },
-      {
-        threshold: 0.5, // Trigger when 50% of card is visible
-      }
+      { threshold: [0.3, 0.5] }
     );
 
-    const currentCard = cardRef.current;
-    if (currentCard) {
-      observer.observe(currentCard);
-    }
-
-    return () => {
-      if (currentCard) {
-        observer.unobserve(currentCard);
-      }
-    };
+    observer.observe(currentCard);
+    return () => observer.unobserve(currentCard);
   }, [autoMarkAsViewed, onView, newsId]);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  const handleImageLoad = () => setImageLoaded(true);
 
   const handleImageError = () => {
     setImageError(true);
-    if (onImageError) {
-      onImageError();
-    }
+    onImageError?.();
   };
 
   const handleSourceClick = (e: React.MouseEvent) => {
@@ -86,7 +87,12 @@ export const NewsCard = ({
   const domain = extractDomain(news.citation);
 
   return (
-    <article ref={cardRef} className={styles.card} data-news-id={newsId}>
+    <article
+      ref={cardRef}
+      className={styles.card}
+      data-news-id={newsId}
+      data-revealed={revealed ? 'true' : 'false'}
+    >
       {/* News Image */}
       <div className={styles.imageContainer}>
         {!imageError ? (
@@ -106,9 +112,13 @@ export const NewsCard = ({
             <FiTag size={32} />
           </div>
         )}
-        
+
+        {/* Bottom fade for legibility against the image */}
+        <div className={styles.imageGradient} />
+
         {/* Source Badge */}
         <div className={styles.sourceBadge}>
+          <span className={styles.sourceDot} />
           <span className={styles.sourceText}>{news.source}</span>
         </div>
       </div>
@@ -158,7 +168,7 @@ export const NewsCard = ({
             aria-label={`Read more at ${domain}`}
           >
             <span>Read More</span>
-            <FiExternalLink size={16} />
+            <FiArrowUpRight size={16} />
           </button>
         </div>
       </div>

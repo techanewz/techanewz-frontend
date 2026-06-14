@@ -1,23 +1,52 @@
 @import '../../styles/designSystem.scss';
 
+// ============================================
+// Login Page
+// ============================================
+
 .page {
+  position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: spacing(4);
-  background: color(primary-bg);
+  background: transparent; // AppBackground paints the scene
 }
 
 .card {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 420px;
-  @include card-base;
+  max-width: 400px;
+  @include glass-effect;
+  @include spotlight-border;
+  border-radius: radius(2xl);
   padding: spacing(8) spacing(6);
   display: flex;
   flex-direction: column;
   gap: spacing(5);
-  animation: slideUp 0.4s ease-out;
+  animation: cardIn 0.6s $ease-out-expo both;
+  box-shadow:
+    0 0 0 1px rgba(10, 132, 255, 0.08),
+    shadow(xl),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  @include breakpoint(md) {
+    padding: spacing(10) spacing(8);
+  }
+
+  // Staggered entrance of inner sections
+  @media (prefers-reduced-motion: no-preference) {
+    > * { animation: enterRise 0.6s $ease-out-expo both; }
+    > *:nth-child(1) { animation-delay: 0.10s; }
+    > *:nth-child(2) { animation-delay: 0.18s; }
+    > *:nth-child(3) { animation-delay: 0.26s; }
+    > *:nth-child(4) { animation-delay: 0.34s; }
+    > *:nth-child(5) { animation-delay: 0.42s; }
+    > *:nth-child(6) { animation-delay: 0.50s; }
+  }
 }
 
 // ============================================
@@ -26,19 +55,48 @@
 
 .brand {
   text-align: center;
-  margin-bottom: spacing(2);
+  margin-bottom: spacing(1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: spacing(2);
+}
+
+.logoMark {
+  @include flex-center;
+  width: 64px;
+  height: 64px;
+  border-radius: radius(xl);
+  background: linear-gradient(160deg, color(accent-primary-subtle), rgba(56, 189, 248, 0.06));
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  box-shadow: shadow(glow-subtle), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  margin-bottom: spacing(1);
+  @media (prefers-reduced-motion: no-preference) {
+    animation: float 5s ease-in-out infinite;
+  }
+}
+
+.logoImg {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: breathe 4s ease-in-out infinite;
+  }
 }
 
 .brandName {
-  @include typography(3xl, bold, tight);
-  @include gradient-text;
-  margin: 0 0 spacing(2);
+  @include display-font(bold);
+  font-size: font-size(3xl);
+  @include gradient-text-animated;
+  margin: 0;
 }
 
 .brandTagline {
-  @include typography(sm, normal, normal);
-  color: color(text-secondary);
+  font-size: font-size(sm);
+  color: color(text-tertiary);
   margin: 0;
+  letter-spacing: 0.01em;
 }
 
 // ============================================
@@ -48,31 +106,36 @@
 .tabs {
   display: flex;
   background: color(tertiary-bg);
-  border-radius: radius(lg);
+  border-radius: radius(xl);
   padding: spacing(1);
   gap: spacing(1);
+  border: 1px solid color(border-subtle);
 }
 
 .tab {
   flex: 1;
   padding: spacing(2) spacing(4);
-  @include typography(sm, medium, normal);
-  color: color(text-secondary);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
+  font-family: inherit;
+  color: color(text-muted);
   background: transparent;
   border: none;
-  border-radius: radius(md);
+  border-radius: radius(lg);
   cursor: pointer;
   transition: all transition(base);
+  @include focus-ring;
 
   &:hover {
-    color: color(text-primary);
+    color: color(text-secondary);
   }
 }
 
 .activeTab {
   background: color(secondary-bg);
-  color: color(text-primary);
-  box-shadow: shadow(sm);
+  color: color(text-primary) !important;
+  box-shadow: shadow(xs);
+  font-weight: font-weight(semibold);
 }
 
 // ============================================
@@ -85,22 +148,32 @@
   justify-content: center;
   gap: spacing(3);
   width: 100%;
-  padding: spacing(3) spacing(4);
-  background: color(secondary-bg);
-  border: 1px solid color(border-default);
-  border-radius: radius(lg);
-  @include typography(base, medium, normal);
+  height: 48px;
+  padding: 0 spacing(4);
+  background: color(tertiary-bg);
+  border: 1px solid color(border-medium);
+  border-radius: radius(xl);
+  font-size: font-size(sm);
+  font-weight: font-weight(semibold);
+  font-family: inherit;
   color: color(text-primary);
   cursor: pointer;
   transition: all transition(base);
+  @include focus-ring;
 
   &:hover:not(:disabled) {
-    background: color(tertiary-bg);
-    border-color: color(border-interactive);
+    background: color(surface);
+    border-color: color(border-strong);
+    transform: translateY(-1px);
+    box-shadow: shadow(md);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }
@@ -114,14 +187,17 @@
   align-items: center;
   gap: spacing(3);
   color: color(text-muted);
-  @include typography(sm, normal, normal);
+  font-size: font-size(xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: spacing(1) 0;
 
   &::before,
   &::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: color(divider);
+    background: color(border-subtle);
   }
 }
 
@@ -148,111 +224,97 @@
 }
 
 .label {
-  @include typography(sm, medium, normal);
+  font-size: font-size(xs);
+  font-weight: font-weight(semibold);
+  letter-spacing: 0.03em;
   color: color(text-secondary);
+  text-transform: uppercase;
 }
 
 .input {
-  width: 100%;
-  padding: spacing(3) spacing(4);
-  background: color(tertiary-bg);
-  border: 1px solid color(border-subtle);
-  border-radius: radius(md);
-  @include typography(base, normal, normal);
-  color: color(text-primary);
-  transition: border-color transition(base);
-  box-sizing: border-box;
-
-  &::placeholder {
-    color: color(text-muted);
-  }
+  @include input-base;
+  height: 44px;
 
   &:focus {
-    outline: none;
-    border-color: color(accent-primary);
+    box-shadow: 0 0 0 3px color(focus-ring);
   }
 }
 
 .submitButton {
+  @include button-primary;
   width: 100%;
-  padding: spacing(3) spacing(4);
-  background: linear-gradient(135deg, color(accent-gradient-start), color(accent-gradient-end));
-  border: none;
-  border-radius: radius(lg);
-  @include typography(base, semibold, normal);
-  color: color(text-primary);
-  cursor: pointer;
-  transition: opacity transition(base);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
+  height: 48px;
+  font-size: font-size(sm);
+  border-radius: radius(xl);
+  letter-spacing: 0.01em;
+  box-shadow: shadow(glow-subtle);
 
   &:hover:not(:disabled) {
-    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: shadow(glow);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
 // ============================================
-// Error
+// Error message
 // ============================================
 
 .error {
-  @include typography(sm, normal, normal);
+  font-size: font-size(sm);
+  line-height: line-height(normal);
   color: color(error);
-  background: rgba(color(error), 0.1);
-  border: 1px solid rgba(color(error), 0.3);
-  border-radius: radius(md);
+  background: color(error-bg);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  border-radius: radius(lg);
   padding: spacing(3) spacing(4);
   margin: 0;
   text-align: center;
+  animation: errorIn 0.25s ease-out;
 }
 
 // ============================================
-// Skip / guest link
-// ============================================
-
-.skipButton {
-  background: none;
-  border: none;
-  @include typography(sm, normal, normal);
-  color: color(text-muted);
-  cursor: pointer;
-  text-align: center;
-  text-decoration: underline;
-  transition: color transition(base);
-
-  &:hover {
-    color: color(text-secondary);
-  }
-}
-
-// ============================================
-// Spinner
+// Inline spinner
 // ============================================
 
 .spinner {
   display: inline-block;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: spin 0.65s linear infinite;
+  flex-shrink: 0;
 }
 
 // ============================================
-// Animations
+// Keyframes
 // ============================================
 
-@keyframes slideUp {
+@keyframes cardIn {
   from {
-    transform: translateY(24px);
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes errorIn {
+  from {
+    transform: translateY(-4px);
     opacity: 0;
   }
   to {
@@ -262,7 +324,5 @@
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }

@@ -1,4 +1,5 @@
 import { Component, ReactNode, ErrorInfo } from 'react';
+import { Sentry, sentryEnabled } from '@/config/sentry';
 import styles from './ErrorBoundary.module.scss';
 
 // ============================================
@@ -36,6 +37,9 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
+    if (sentryEnabled) {
+      Sentry.captureException(error, { extra: { componentStack: errorInfo.componentStack } });
+    }
   }
 
   handleReset = () => {
@@ -57,7 +61,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <p className={styles.message}>
               We're sorry for the inconvenience. The application encountered an unexpected error.
             </p>
-            {this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <details className={styles.details}>
                 <summary>Error details</summary>
                 <pre className={styles.errorText}>{this.state.error.toString()}</pre>
