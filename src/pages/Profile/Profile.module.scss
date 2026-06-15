@@ -40,54 +40,46 @@
   position: relative;
   flex-shrink: 0;
 
-  // Rotating conic glow ring
+  // Refined gradient rim — a thin ring, not a glowing halo
   &::before {
     content: '';
     position: absolute;
-    inset: -7px;
+    inset: -2px;
     border-radius: radius(full);
-    background: conic-gradient(from 0deg, color(accent-primary), color(accent-secondary), transparent 55%, color(accent-primary));
-    filter: blur(3px);
-    opacity: 0.7;
-    z-index: -1;
-    @media (prefers-reduced-motion: no-preference) {
-      animation: spinSlow 6s linear infinite;
-    }
+    background: linear-gradient(150deg, color(accent-primary), color(accent-secondary) 60%, transparent);
+    opacity: 0.55;
+    z-index: 0;
   }
 }
 
 .avatar {
-  @include flex-center;
-  width: 100px;
-  height: 100px;
-  border-radius: radius(full);
-  background: linear-gradient(145deg, color(accent-primary-dim), color(accent-primary));
-  color: #fff;
-  box-shadow: shadow(glow);
   position: relative;
+  z-index: 1;
+  @include flex-center;
+  width: 88px;
+  height: 88px;
+  border-radius: radius(full);
+  background: color(secondary-bg);
+  border: 1px solid color(border-medium);
+  object-fit: cover;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
 
   @include breakpoint(md) {
-    width: 120px;
-    height: 120px;
+    width: 104px;
+    height: 104px;
   }
 }
 
-.onlineBadge {
-  position: absolute;
-  bottom: 3px;
-  right: 3px;
-  width: 18px;
-  height: 18px;
-  background-color: color(success);
-  border: 3px solid color(primary-bg);
-  border-radius: radius(full);
-
-  @include breakpoint(md) {
-    width: 20px;
-    height: 20px;
-    bottom: 4px;
-    right: 4px;
-  }
+.avatarInitial {
+  @include display-font(bold);
+  font-size: font-size(4xl);
+  line-height: 1;
+  background: linear-gradient(145deg, color(accent-primary), color(accent-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .userInfo {
@@ -108,16 +100,13 @@
   }
 }
 
-.userId {
-  font-size: font-size(xs);
-  color: color(text-muted);
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  letter-spacing: 0.04em;
+.userMeta {
+  font-size: font-size(sm);
+  color: color(text-tertiary);
   margin: 0;
-  padding: 2px spacing(3);
-  background-color: color(tertiary-bg);
-  border-radius: radius(md);
-  border: 1px solid color(border-subtle);
+  letter-spacing: 0.01em;
+  @include truncate(1);
+  max-width: 280px;
 }
 
 // ============================================
@@ -142,15 +131,15 @@
   padding: spacing(4) spacing(5);
   display: flex;
   flex-direction: column;
-  gap: spacing(3);
-  align-items: center;
-  text-align: center;
+  gap: spacing(2);
+  align-items: flex-start;
+  text-align: left;
   transition: transform transition(spring), border-color transition(base), box-shadow transition(base);
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: rgba(10, 132, 255, 0.2);
-    box-shadow: shadow(md), shadow(glow-subtle);
+    transform: translateY(-3px);
+    border-color: rgba(10, 132, 255, 0.18);
+    box-shadow: shadow(md);
   }
 
   @include breakpoint(md) {
@@ -158,32 +147,12 @@
   }
 }
 
-.statIcon {
-  @include flex-center;
-  width: 40px;
-  height: 40px;
-  border-radius: radius(lg);
-  background-color: color(accent-primary-subtle);
-  color: color(accent-primary);
-
-  @include breakpoint(md) {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-.statContent {
-  display: flex;
-  flex-direction: column;
-  gap: spacing(1);
-}
-
 .statLabel {
   font-size: font-size(xs);
-  font-weight: font-weight(semibold);
-  color: color(text-muted);
-  text-transform: uppercase;
-  letter-spacing: letter-spacing(caps);
+  font-weight: font-weight(medium);
+  color: color(text-tertiary);
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .statValue {
@@ -216,20 +185,13 @@
 }
 
 .sectionTitle {
-  font-size: font-size(base);
+  font-size: font-size(sm);
   font-weight: font-weight(semibold);
-  letter-spacing: letter-spacing(caps);
-  text-transform: uppercase;
-  color: color(text-muted);
-  display: flex;
-  align-items: center;
-  gap: spacing(3);
-  margin: 0 0 spacing(4);
-
-  svg {
-    color: color(accent-primary);
-    flex-shrink: 0;
-  }
+  letter-spacing: 0;
+  text-transform: none;
+  color: color(text-secondary);
+  margin: 0 0 spacing(3);
+  padding-left: spacing(1);
 }
 
 // ============================================
@@ -367,10 +329,15 @@
   width: 48px;
   height: 48px;
   border-radius: radius(full);
-  background-color: color(tertiary-bg);
-  color: color(text-tertiary);
+  background-color: color(accent-primary-subtle);
   flex-shrink: 0;
-  border: 1px solid color(border-subtle);
+  border: 1px solid rgba(10, 132, 255, 0.2);
+
+  span {
+    @include display-font(bold);
+    font-size: font-size(lg);
+    color: color(accent-primary);
+  }
 }
 
 .accountInfo {

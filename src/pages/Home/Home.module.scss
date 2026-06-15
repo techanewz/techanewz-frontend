@@ -233,16 +233,20 @@
   }
 }
 
-.errorIcon {
-  font-size: 3rem;
-  opacity: 0.5;
-  animation: pulse 2.5s ease-in-out infinite;
+.stateIcon {
+  @include flex-center;
+  width: 56px;
+  height: 56px;
+  border-radius: radius(xl);
+  background-color: color(accent-primary-subtle);
+  border: 1px solid rgba(10, 132, 255, 0.18);
+  color: color(accent-primary);
+  margin-bottom: spacing(1);
 }
 
 .errorTitle {
+  @include display-font(semibold);
   font-size: font-size(xl);
-  font-weight: font-weight(semibold);
-  letter-spacing: letter-spacing(tight);
   color: color(text-primary);
   margin: 0;
 }

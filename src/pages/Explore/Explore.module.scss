@@ -254,8 +254,11 @@
 }
 
 .checkmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  font-size: font-size(sm);
+  color: color(accent-primary);
 }
 
 .noResults {
@@ -371,17 +374,21 @@
   animation: scaleIn 0.3s ease-out;
 }
 
-.errorIcon,
-.emptyIcon {
-  font-size: 2.5rem;
-  opacity: 0.4;
+.stateIcon {
+  @include flex-center;
+  width: 56px;
+  height: 56px;
+  border-radius: radius(xl);
+  background-color: color(accent-primary-subtle);
+  border: 1px solid rgba(10, 132, 255, 0.18);
+  color: color(accent-primary);
+  margin-bottom: spacing(1);
 }
 
 .errorTitle,
 .emptyTitle {
+  @include display-font(semibold);
   font-size: font-size(xl);
-  font-weight: font-weight(semibold);
-  letter-spacing: letter-spacing(tight);
   color: color(text-primary);
   margin: 0;
 }

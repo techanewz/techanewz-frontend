@@ -1,4 +1,5 @@
 import { Component, ReactNode, ErrorInfo } from 'react';
+import { FiAlertTriangle } from 'react-icons/fi';
 import { Sentry, sentryEnabled } from '@/config/sentry';
 import styles from './ErrorBoundary.module.scss';
 
@@ -56,8 +57,10 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className={styles.errorBoundary}>
           <div className={styles.content}>
             <img src="/Logo.svg" alt="TechaNewz" className={styles.brandLogo} />
-            <div className={styles.icon}>⚠️</div>
-            <h1 className={styles.title}>Oops! Something went wrong</h1>
+            <div className={styles.icon}>
+              <FiAlertTriangle size={26} />
+            </div>
+            <h1 className={styles.title}>Something went wrong</h1>
             <p className={styles.message}>
               We're sorry for the inconvenience. The application encountered an unexpected error.
             </p>

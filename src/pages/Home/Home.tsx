@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { FiAlertTriangle } from 'react-icons/fi';
 import { Layout } from '@/components/Layout/Layout';
 import { NewsCard } from '@/components/NewsCard/NewsCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
@@ -91,7 +92,9 @@ export const Home = () => {
         {/* Error State */}
         {error && news.length === 0 ? (
           <div className={styles.errorContainer}>
-            <div className={styles.errorIcon}>⚠️</div>
+            <div className={styles.stateIcon}>
+              <FiAlertTriangle size={26} />
+            </div>
             <h2 className={styles.errorTitle}>Something went wrong</h2>
             <p className={styles.errorMessage}>{error}</p>
             <button

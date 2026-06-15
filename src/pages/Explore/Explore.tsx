@@ -3,7 +3,7 @@ import { NewsCard } from '@/components/NewsCard/NewsCard';
 import { LoadingSpinner } from '@/components/LoadingSpinner/LoadingSpinner';
 import { useExplore } from './useExplore';
 import styles from './Explore.module.scss';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiCheck, FiCompass, FiInbox, FiAlertTriangle } from 'react-icons/fi';
 
 // ============================================
 // Explore Page Component
@@ -73,7 +73,11 @@ export const Explore = () => {
                     onClick={() => handleTagToggle(tag)}
                   >
                     <span>{tag}</span>
-                    {isSelected && <span className={styles.checkmark}>✓</span>}
+                    {isSelected && (
+                      <span className={styles.checkmark}>
+                        <FiCheck size={14} />
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -106,8 +110,10 @@ export const Explore = () => {
           {/* Error State */}
           {error ? (
             <div className={styles.errorContainer}>
-              <div className={styles.errorIcon}>⚠️</div>
-              <h2 className={styles.errorTitle}>Oops! Something went wrong</h2>
+              <div className={styles.stateIcon}>
+                <FiAlertTriangle size={26} />
+              </div>
+              <h2 className={styles.errorTitle}>Something went wrong</h2>
               <p className={styles.errorMessage}>{error}</p>
             </div>
           ) : null}
@@ -115,10 +121,12 @@ export const Explore = () => {
           {/* Empty State */}
           {!isLoading && !error && selectedTags.length === 0 ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>🔍</div>
-              <h2 className={styles.emptyTitle}>Select Topics to Explore</h2>
+              <div className={styles.stateIcon}>
+                <FiCompass size={26} />
+              </div>
+              <h2 className={styles.emptyTitle}>Pick a few topics</h2>
               <p className={styles.emptyMessage}>
-                Choose one or more categories above to discover relevant news
+                Choose categories above and your feed fills with matching stories.
               </p>
             </div>
           ) : null}
@@ -126,10 +134,12 @@ export const Explore = () => {
           {/* No Results */}
           {!isLoading && !error && selectedTags.length > 0 && news.length === 0 ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>📭</div>
-              <h2 className={styles.emptyTitle}>No News Found</h2>
+              <div className={styles.stateIcon}>
+                <FiInbox size={26} />
+              </div>
+              <h2 className={styles.emptyTitle}>Nothing here yet</h2>
               <p className={styles.emptyMessage}>
-                Try selecting different categories
+                No stories match these topics. Try a different mix.
               </p>
             </div>
           ) : null}

@@ -25,15 +25,22 @@
 }
 
 .icon {
-  font-size: 3rem;
-  opacity: 0.4;
-  animation: pulse 2.5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: radius(xl);
+  background-color: color(accent-primary-subtle);
+  border: 1px solid rgba(10, 132, 255, 0.18);
+  color: color(accent-primary);
 }
 
 .title {
+  font-family: $font-display;
   font-size: font-size(2xl);
   font-weight: font-weight(bold);
-  letter-spacing: letter-spacing(tight);
+  letter-spacing: -0.015em;
   color: color(text-primary);
   margin: 0;
 
