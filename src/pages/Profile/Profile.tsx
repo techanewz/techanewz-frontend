@@ -121,7 +121,7 @@ export const Profile = () => {
 
           {/* App Info */}
           <div className={styles.appInfo}>
-            <p className={styles.version}>TechaNewz · v1.0.0</p>
+            <p className={styles.version}>TechShup · v1.0.0</p>
           </div>
         </div>
       </div>

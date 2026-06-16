@@ -73,7 +73,7 @@ export const Home = () => {
   }, [news.length]);
 
   return (
-    <Layout title="TechaNewz">
+    <Layout title="TechShup">
       {/* Reading-progress bar (mobile immersive feed) */}
       <div className={styles.progressTrack} aria-hidden="true">
         <div ref={progressRef} className={styles.progressFill} />

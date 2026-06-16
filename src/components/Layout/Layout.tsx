@@ -23,7 +23,7 @@ interface LayoutProps {
 
 export const Layout = ({
   children,
-  title = 'TechaNewz',
+  title = 'TechShup',
   showTopBar = true,
   showBottomNav = true,
   showNotifications = true,

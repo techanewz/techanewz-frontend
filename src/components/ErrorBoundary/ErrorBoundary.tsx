@@ -56,7 +56,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className={styles.errorBoundary}>
           <div className={styles.content}>
-            <img src="/Logo.svg" alt="TechaNewz" className={styles.brandLogo} />
+            <img src="/Logo.svg" alt="TechShup" className={styles.brandLogo} />
             <div className={styles.icon}>
               <FiAlertTriangle size={26} />
             </div>

@@ -27,8 +27,8 @@ export const Sidebar = () => {
     <aside className={styles.sidebar}>
       {/* Logo */}
       <div className={styles.logo}>
-        <img src="/Logo.svg" alt="TechaNewz" className={styles.logoImg} />
-        <h2 className={styles.logoText}>TechaNewz</h2>
+        <img src="/Logo.svg" alt="TechShup" className={styles.logoImg} />
+        <h2 className={styles.logoText}>TechShup</h2>
       </div>
 
       {/* Navigation */}
@@ -55,7 +55,7 @@ export const Sidebar = () => {
 
       {/* Footer */}
       <div className={styles.footer}>
-        <p className={styles.footerText}>© 2026 TechaNewz</p>
+        <p className={styles.footerText}>© 2026 TechShup</p>
       </div>
     </aside>
   );

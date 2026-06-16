@@ -131,7 +131,7 @@ export const Login = () => {
           <div className={styles.logoMark}>
             <img src="/Logo.svg" alt="" className={styles.logoImg} aria-hidden="true" />
           </div>
-          <h1 className={styles.brandName}>TechaNewz</h1>
+          <h1 className={styles.brandName}>TechShup</h1>
           <p className={styles.brandTagline}>Your daily tech news digest</p>
         </div>
 

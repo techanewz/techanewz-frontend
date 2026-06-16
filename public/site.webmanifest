@@ -1,6 +1,6 @@
 {
-  "name": "TechaNewz - Latest Tech News & Updates",
-  "short_name": "TechaNewz",
+  "name": "TechShup - Latest Tech News & Updates",
+  "short_name": "TechShup",
   "description": "Personalized AI-curated tech news. Infinite scroll, 25+ categories, zero noise.",
   "start_url": "/",
   "scope": "/",
