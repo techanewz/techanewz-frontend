@@ -99,6 +99,24 @@
   letter-spacing: 0.01em;
 }
 
+.legalFooter {
+  margin: spacing(5) 0 0;
+  text-align: center;
+  font-size: font-size(xs);
+  line-height: line-height(relaxed);
+  color: color(text-muted);
+
+  a {
+    color: color(text-secondary);
+    text-decoration: none;
+
+    &:hover {
+      color: color(accent-primary);
+      text-decoration: underline;
+    }
+  }
+}
+
 // ============================================
 // Tabs
 // ============================================

@@ -228,6 +228,32 @@
   margin: 0;
 }
 
+// Support / contact links
+.supportLink {
+  @include card-base;
+  @include flex-between;
+  padding: spacing(4) spacing(5);
+  gap: spacing(4);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform transition(spring), border-color transition(base), box-shadow transition(base);
+
+  & + & {
+    margin-top: spacing(2);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(10, 132, 255, 0.18);
+    box-shadow: shadow(md);
+  }
+}
+
+.supportIcon {
+  flex-shrink: 0;
+  color: color(text-tertiary);
+}
+
 // Toggle Switch
 .toggle {
   position: relative;

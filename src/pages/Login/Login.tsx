@@ -264,6 +264,20 @@ export const Login = () => {
           </form>
         )}
 
+        {/* Help / contact — reachable before signing in */}
+        <p className={styles.legalFooter}>
+          Need help?{' '}
+          <a href="mailto:techshupsupport@dimssu.com">techshupsupport@dimssu.com</a>
+          {' · '}
+          <a
+            href="https://techshup.dimssu.com/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Contact &amp; Help
+          </a>
+        </p>
+
       </div>
     </div>
   );

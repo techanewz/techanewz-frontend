@@ -1,7 +1,7 @@
 import { Layout } from '@/components/Layout/Layout';
 import { useUser } from '@/contexts/UserContext';
 import styles from './Profile.module.scss';
-import { FiLogOut } from 'react-icons/fi';
+import { FiLogOut, FiMail, FiExternalLink } from 'react-icons/fi';
 
 // ============================================
 // Profile Page Component
@@ -119,9 +119,46 @@ export const Profile = () => {
             </div>
           </section>
 
+          {/* Help & Support */}
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Help &amp; Support</h2>
+
+            <a
+              className={styles.supportLink}
+              href="mailto:techshupsupport@dimssu.com?subject=TechShup%20Support"
+            >
+              <div className={styles.settingInfo}>
+                <h3 className={styles.settingLabel}>Contact us</h3>
+                <p className={styles.settingDescription}>
+                  techshupsupport@dimssu.com — questions, bug reports, or news
+                  corrections. We reply within 1–2 business days.
+                </p>
+              </div>
+              <FiMail className={styles.supportIcon} size={18} />
+            </a>
+
+            <a
+              className={styles.supportLink}
+              href="https://techshup.dimssu.com/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className={styles.settingInfo}>
+                <h3 className={styles.settingLabel}>Help &amp; contact page</h3>
+                <p className={styles.settingDescription}>
+                  Support, privacy policy, and how we source the news we show.
+                </p>
+              </div>
+              <FiExternalLink className={styles.supportIcon} size={18} />
+            </a>
+          </section>
+
           {/* App Info */}
           <div className={styles.appInfo}>
             <p className={styles.version}>TechShup · v1.0.0</p>
+            <p className={styles.copyright}>
+              Operated by DIMSSU Labs · techshupsupport@dimssu.com
+            </p>
           </div>
         </div>
       </div>
