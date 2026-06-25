@@ -97,6 +97,12 @@ export const NewsCard = ({
       <div className={styles.imageContainer}>
         {!imageError ? (
           <>
+            {/* Blurred fill so wide/odd-ratio images are shown whole, never cropped */}
+            <div
+              className={styles.imageBackdrop}
+              style={{ backgroundImage: `url("${news.image}")` }}
+              aria-hidden="true"
+            />
             {!imageLoaded && <div className={styles.imageSkeleton} />}
             <img
               src={news.image}

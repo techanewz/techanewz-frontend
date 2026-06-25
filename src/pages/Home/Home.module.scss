@@ -156,7 +156,8 @@
   display: flex;
   flex-direction: column;
 
-  // Mobile: one card fills the viewport
+  // Mobile: one card fills the viewport. Reserve the bottom for the fixed
+  // nav so the card footer (Read More) is never hidden behind it.
   @include breakpoint-max(md) {
     height: 100vh;
     height: 100dvh;
@@ -164,7 +165,7 @@
     min-height: 100dvh;
     max-height: 100vh;
     max-height: 100dvh;
-    padding: spacing(3) 0 0;
+    padding: spacing(3) 0 calc(60px + env(safe-area-inset-bottom, 0));
     scroll-snap-align: start;
     scroll-snap-stop: always;
     flex-shrink: 0;

@@ -55,18 +55,35 @@
   background-color: color(tertiary-bg);
   overflow: hidden;
   flex-shrink: 0;
+  isolation: isolate; // own stacking context for the layered image fill
 
   // Taller, more immersive image on mobile full-screen view
   @include breakpoint-max(md) {
     aspect-ratio: auto;
-    flex: 1 1 52%;
+    flex: 1 1 47%;
     min-height: 0;
     border-radius: radius(2xl);
     margin: 0 spacing(3) spacing(1);
   }
 }
 
+// Blurred, zoomed copy of the image that fills the frame behind the real
+// image — lets us show the whole image (object-fit: contain) without ugly
+// letterbox bars or cropping logos at the edges.
+.imageBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.18);
+  filter: blur(26px) saturate(1.15) brightness(0.5);
+}
+
 .image {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -79,25 +96,18 @@
     transform: scale(1);
   }
 
-  // Slow Ken Burns drift on the focused mobile card
+  // Mobile full-screen: show the entire image (no edge cropping of logos),
+  // letting the blurred backdrop fill the surrounding space.
   @include breakpoint-max(md) {
-    @media (prefers-reduced-motion: no-preference) {
-      .card[data-revealed='true'] &.imageLoaded {
-        animation: kenburns 18s ease-out forwards;
-      }
-    }
+    object-fit: contain;
   }
-}
-
-@keyframes kenburns {
-  from { transform: scale(1); }
-  to   { transform: scale(1.1); }
 }
 
 .imageSkeleton {
   @include skeleton-loading;
   position: absolute;
   inset: 0;
+  z-index: 2;
 }
 
 .imagePlaceholder {
@@ -114,6 +124,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 2;
   height: 55%;
   background: linear-gradient(to top, rgba(8, 8, 8, 0.78) 0%, rgba(8, 8, 8, 0.18) 55%, transparent 100%);
   pointer-events: none;
@@ -129,6 +140,7 @@
   position: absolute;
   top: spacing(3);
   left: spacing(3);
+  z-index: 3;
   display: flex;
   align-items: center;
   gap: spacing(2);
@@ -174,13 +186,14 @@
   flex-direction: column;
   gap: spacing(3);
   flex: 1;
-  // Scrollable on mobile full-screen view
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  // One screen per article: never scroll inside a card. A single swipe up
+  // advances to the next news instead of scrolling through the text first.
+  overflow: hidden;
   @include hide-scrollbar;
 
   @include breakpoint-max(md) {
-    flex: 1 1 48%;
+    flex: 1 1 53%;
+    min-height: 0;
     padding: spacing(3) spacing(5) spacing(4);
     gap: spacing(3);
   }
@@ -212,6 +225,8 @@
   @include breakpoint-max(md) {
     font-size: font-size(2xl);
     line-height: 1.25;
+    @include truncate(3);
+    flex-shrink: 0;
   }
 
   @include breakpoint(md) {
@@ -230,6 +245,12 @@
 
   @include breakpoint-max(md) {
     font-size: font-size(base);
+    min-height: 0;
+    overflow: hidden;
+    // Whatever doesn't fit on the screen fades out; "Read More" opens the full
+    // article. Keeps every card to exactly one screen — no in-card scrolling.
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
   }
 
   @include breakpoint(md) {
