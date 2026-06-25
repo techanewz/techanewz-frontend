@@ -12,8 +12,16 @@
   -webkit-overflow-scrolling: touch;
   @include hide-scrollbar;
 
-  // Mobile: single-card snap scroll
+  // Mobile: single-card snap scroll. Pin to the viewport so the *page* itself
+  // never scrolls — only this feed scrolls internally. Without this, the feed
+  // (100dvh) plus the layout's bottom-nav padding makes the document taller
+  // than the screen, producing a window-level scrollbar that offsets the
+  // layout and shows the background down the right edge (uneven side padding).
   @include breakpoint-max(md) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
   }
