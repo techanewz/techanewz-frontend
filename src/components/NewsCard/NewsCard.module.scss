@@ -57,13 +57,14 @@
   flex-shrink: 0;
   isolation: isolate; // own stacking context for the layered image fill
 
-  // Taller, more immersive image on mobile full-screen view
+  // Mobile: a clean, responsive 16:9 frame. Normal photos fill it edge-to-edge
+  // (no letterbox bars); only odd panoramic/portrait images use the blurred
+  // fill. Keeps the image compact so the whole card fits one screen.
   @include breakpoint-max(md) {
-    aspect-ratio: auto;
-    flex: 1 1 47%;
-    min-height: 0;
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 9;
     border-radius: radius(2xl);
-    margin: 0 spacing(3) spacing(1);
+    margin: 0 spacing(3) spacing(2);
   }
 }
 
@@ -192,7 +193,7 @@
   @include hide-scrollbar;
 
   @include breakpoint-max(md) {
-    flex: 1 1 53%;
+    flex: 1 1 auto;
     min-height: 0;
     padding: spacing(3) spacing(5) spacing(4);
     gap: spacing(3);
@@ -245,6 +246,7 @@
 
   @include breakpoint-max(md) {
     font-size: font-size(base);
+    flex: 0 1 auto;
     min-height: 0;
     overflow: hidden;
     // Whatever doesn't fit on the screen fades out; "Read More" opens the full
