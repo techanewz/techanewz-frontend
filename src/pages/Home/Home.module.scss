@@ -343,35 +343,6 @@
 }
 
 // ============================================
-// Reading-progress bar (mobile immersive feed)
-// ============================================
-
-.progressTrack {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  z-index: z(fixed);
-  background: rgba(255, 255, 255, 0.04);
-  padding-top: env(safe-area-inset-top, 0);
-
-  @include breakpoint(lg) {
-    display: none; // desktop scrolls the window; bar is for the snap feed
-  }
-}
-
-.progressFill {
-  height: 100%;
-  width: 100%;
-  transform: scaleX(0);
-  transform-origin: left center;
-  background: linear-gradient(90deg, color(accent-primary), color(accent-secondary));
-  box-shadow: 0 0 10px rgba(10, 132, 255, 0.7);
-  will-change: transform;
-}
-
-// ============================================
 // Skeleton feed (loading)
 // ============================================
 

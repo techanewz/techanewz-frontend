@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { Layout } from '@/components/Layout/Layout';
 import { NewsCard } from '@/components/NewsCard/NewsCard';
@@ -34,7 +34,6 @@ const SkeletonCard = () => (
 
 export const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
   const {
     news,
     isLoading,
@@ -45,40 +44,8 @@ export const Home = () => {
     handleNewsView,
   } = useHome();
 
-  // Live reading-progress bar — writes directly to the DOM via rAF (no re-render)
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      const max = el.scrollHeight - el.clientHeight;
-      const p = max > 0 ? Math.min(1, el.scrollTop / max) : 0;
-      if (progressRef.current) {
-        progressRef.current.style.transform = `scaleX(${p})`;
-      }
-    };
-
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    el.addEventListener('scroll', onScroll, { passive: true });
-    update();
-    return () => {
-      el.removeEventListener('scroll', onScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [news.length]);
-
   return (
     <Layout title="TechShup">
-      {/* Reading-progress bar (mobile immersive feed) */}
-      <div className={styles.progressTrack} aria-hidden="true">
-        <div ref={progressRef} className={styles.progressFill} />
-      </div>
-
       <div ref={scrollContainerRef} className={styles.home}>
         {/* Loading State — skeletons that match the feed */}
         {isLoading && news.length === 0 ? (
