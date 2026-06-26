@@ -60,8 +60,14 @@
   // Mobile: a clean, responsive 16:9 frame. Normal photos fill it edge-to-edge
   // (no letterbox bars); only odd panoramic/portrait images use the blurred
   // fill. Keeps the image compact so the whole card fits one screen.
+  // NOTE: width MUST be auto here. The base rule sets width:100%, which —
+  // combined with the side margins below — would make the box 100% + 24px wide
+  // and overflow the right edge (left padding shows, right padding clipped).
+  // With width:auto the flex item stretches to (card width − margins), so the
+  // left and right padding stay equal.
   @include breakpoint-max(md) {
     flex: 0 0 auto;
+    width: auto;
     aspect-ratio: 16 / 9;
     border-radius: radius(2xl);
     margin: 0 spacing(3) spacing(2);
